@@ -1,1 +1,113 @@
 @import "tailwindcss";
+
+/* Sections opt into a dark treatment with data-theme="dark"; utilities written
+   as dark:… follow that attribute instead of the OS colour-scheme preference. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  /* Faces are referenced only through these three roles. The fallback inside
+     each var() keeps the site legible before the licensed files are added. */
+  --font-display: var(--font-season-mix, Georgia, "Times New Roman", serif);
+  --font-sans: var(--font-acumin, ui-sans-serif, system-ui, sans-serif);
+  --font-mono: var(--font-akkurat-mono, ui-monospace, "SFMono-Regular", monospace);
+
+  /* Type scale measured from the live Webflow site. */
+  --text-display: 4.8rem;
+  --text-display--line-height: 6rem;
+  --text-display--letter-spacing: -0.16rem;
+
+  --text-display-sm: 4.2rem;
+  --text-display-sm--line-height: 3rem;
+  --text-display-sm--letter-spacing: -0.08rem;
+
+  --text-stat: 2.5rem;
+  --text-stat--line-height: 1.1;
+  --text-stat--letter-spacing: -0.08rem;
+
+  --text-heading: 1.5rem;
+  --text-heading--line-height: 2rem;
+  --text-heading--letter-spacing: -0.06rem;
+
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.25rem;
+  --text-body--letter-spacing: -0.02rem;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1rem;
+  --text-eyebrow--letter-spacing: 0.01rem;
+
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --color-muted: #777777;
+  --color-subtle: #f2f2f2;
+  --color-border: #e2e2e2;
+  --color-accent: #707aff;
+
+  --spacing-gutter: 1.25rem;
+  --container-page: 90rem;
+
+  --nav-height: 70px;
+}
+
+:root {
+  --color-nav-foreground: var(--color-foreground);
+}
+
+[data-theme="dark"] {
+  --color-background: #171717;
+  --color-foreground: #ffffff;
+  --color-muted: #a0a0a0;
+  --color-subtle: #2f2f2f;
+  --color-border: #2f2f2f;
+}
+
+/* The nav floats above sections of either treatment, so its colour is driven by
+   whichever section currently sits beneath it rather than by its own ancestors. */
+[data-nav-theme="dark"] {
+  --color-nav-foreground: #ffffff;
+}
+
+[data-nav-theme="light"] {
+  --color-nav-foreground: #171717;
+}
+
+@layer base {
+  html {
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    width: 0;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    letter-spacing: var(--text-body--letter-spacing);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 400;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
