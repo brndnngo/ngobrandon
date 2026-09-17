@@ -44,7 +44,11 @@
   --color-accent: #707aff;
 
   --spacing-gutter: 1.25rem;
+  --spacing-page: 2.5rem;
+  --spacing-page-sm: 1.5rem;
   --container-page: 90rem;
+  --page-rail: 20vw;
+  --page-rail-narrow: 10vw;
 
   --nav-height: 70px;
 }
@@ -69,6 +73,44 @@
 
 [data-nav-theme="light"] {
   --color-nav-foreground: #171717;
+}
+
+@layer utilities {
+  /* Live Webflow column: 40px / 20vw, then 10vw at 767, 24px at 479. */
+  .page-column {
+    margin-left: var(--spacing-page);
+    margin-right: var(--page-rail);
+  }
+
+  @media (max-width: 767px) {
+    .page-column {
+      margin-right: var(--page-rail-narrow);
+    }
+  }
+
+  @media (max-width: 479px) {
+    .page-column {
+      margin-left: var(--spacing-page-sm);
+      margin-right: var(--spacing-page-sm);
+    }
+  }
+
+  .page-rail {
+    position: fixed;
+    inset-block: 0;
+    left: calc(100vw - var(--page-rail));
+    right: 0;
+    z-index: 998;
+    display: none;
+    flex-direction: column;
+    margin-inline: var(--spacing-page-sm);
+  }
+
+  @media (min-width: 992px) {
+    .page-rail {
+      display: flex;
+    }
+  }
 }
 
 @layer base {

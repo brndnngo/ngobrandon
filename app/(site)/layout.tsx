@@ -15,7 +15,7 @@ export default function SiteLayout({
       <Nav />
       <RevealController />
       <NavThemeController />
-      <main className="flex-1 pt-(--nav-height)">{children}</main>
+      <main className="page-column flex-1 pt-(--nav-height)">{children}</main>
       <Footer />
     </>
   );

@@ -8,7 +8,7 @@ export function PasswordGate({
   error?: boolean;
 }) {
   return (
-    <section data-nav="light" className="mx-auto max-w-md px-gutter py-32">
+    <section data-nav="light" className="mx-auto max-w-md py-32">
       <h1 className="font-display text-heading">This work is private.</h1>
       <p className="mt-4 text-body text-muted">
         Enter the password to read the case study.

@@ -2,7 +2,7 @@ import { siteConfig } from "@/lib/site";
 
 export function FooterCTA() {
   return (
-    <section className="mx-auto max-w-(--container-page) px-gutter pt-32 pb-16">
+    <section className="pt-32 pb-16">
       <div className="grid gap-12 md:grid-cols-[3fr_2fr]">
         <h2 data-reveal className="text-balance font-display text-display">
           Let&rsquo;s chat sometime <span aria-hidden>✧</span>

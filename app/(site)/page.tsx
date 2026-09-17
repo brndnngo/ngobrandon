@@ -21,7 +21,7 @@ function HomeBio({
   const revealProps = reveal ? { "data-reveal": true as const } : {};
 
   return (
-    <>
+    <div className="flex flex-col [row-gap:var(--text-body--line-height)]">
       <p {...revealProps} className={lead}>
         I&rsquo;m a product designer based in LA.
       </p>
@@ -32,8 +32,8 @@ function HomeBio({
         </Link>
         <sup className="text-muted">1</sup>, a social streaming platform for
         microdramas.
-        <br />
-        <br />
+      </p>
+      <p {...revealProps} className={lead}>
         Before that I spent four years at{" "}
         <Link
           href="/project/receive"
@@ -69,29 +69,20 @@ function HomeBio({
         <sup className="text-muted">5</sup>. I&rsquo;ve led teams and worked
         hands-on to shape culture, experiences, and long-term direction.
       </p>
-    </>
+    </div>
   );
 }
-
-const homeInset =
-  "ml-10 mr-[20vw] max-[768px]:mr-[10vw] max-[480px]:mx-6";
 
 export default async function HomePage() {
   const projects = await getProjectCards();
 
   return (
     <>
-      <section
-        data-nav="light"
-        className={`mt-20 hidden max-[992px]:block ${homeInset}`}
-      >
+      <section data-nav="light" className="mt-20 hidden max-[992px]:block">
         <HomeBio leadClassName="max-w-[85%]" />
       </section>
 
-      <section
-        data-nav="light"
-        className={`mt-20 max-[768px]:mt-10 ${homeInset}`}
-      >
+      <section data-nav="light" className="mt-20 max-[768px]:mt-10">
         <div className="grid gap-16 pb-24 md:grid-cols-2">
           {projects.map((card) => (
             <ProjectCardLink key={card.slug} card={card} />
@@ -99,11 +90,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <aside
-        data-nav="light"
-        className="fixed inset-y-0 left-[80vw] right-0 z-[998] mx-6 hidden min-[992px]:flex"
-      >
-        <div className="flex flex-col gap-5 pt-(--nav-height)">
+      <aside data-nav="light" className="page-rail">
+        <div className="pt-(--nav-height)">
           <HomeBio reveal={false} />
         </div>
       </aside>

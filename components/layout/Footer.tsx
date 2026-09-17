@@ -1,10 +1,12 @@
+import { Bracket } from "@/components/layout/Bracket";
 import { Clock } from "@/components/layout/Clock";
 import { socialLinks } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="mx-auto w-full max-w-(--container-page) px-gutter pb-8">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-(--color-border) pt-6">
+    <footer className="page-column pb-8">
+      <Bracket direction="up" />
+      <div className="flex flex-wrap items-center justify-between gap-4 pt-6">
         <ul className="flex items-center gap-6">
           {socialLinks.map((link) => (
             <li key={link.href}>

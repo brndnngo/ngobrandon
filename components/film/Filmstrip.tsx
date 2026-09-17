@@ -65,7 +65,7 @@ export function Filmstrip({ frames }: { frames: FilmFrame[] }) {
         ))}
       </div>
 
-      <div className="mt-8 flex items-center justify-between px-gutter text-body">
+      <div className="mt-8 flex items-center justify-between text-body">
         <button
           type="button"
           onClick={() => go(-1)}

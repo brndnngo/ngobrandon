@@ -7,7 +7,7 @@ export function Container({
 }) {
   return (
     <div
-      className={`mx-auto w-full max-w-(--container-page) px-gutter ${className}`.trim()}
+      className={`w-full ${className}`.trim()}
     >
       {children}
     </div>

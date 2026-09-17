@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Bracket } from "@/components/layout/Bracket";
 import { navLinks, siteConfig } from "@/lib/site";
 
 function isActive(pathname: string, href: string) {
@@ -11,20 +12,13 @@ function isActive(pathname: string, href: string) {
 
 export function Nav() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
 
   return (
     <header
       className="fixed inset-x-0 top-0 z-[999] h-(--nav-height) text-(--color-nav-foreground)"
       style={{ transition: "color 300ms ease" }}
     >
-      <div
-        className={
-          isHome
-            ? "flex h-full items-center justify-between pl-10 pr-0 mr-[20vw] max-[768px]:mr-[10vw] max-[480px]:mr-0 max-[480px]:pl-6"
-            : "mx-auto flex h-full max-w-(--container-page) items-center justify-between px-gutter"
-        }
-      >
+      <div className="page-column relative flex h-full items-center justify-between">
         <Link href="/" className="text-body hover:opacity-60">
           {siteConfig.name}
         </Link>
@@ -51,6 +45,10 @@ export function Nav() {
             })}
           </ul>
         </nav>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0">
+          <Bracket direction="down" />
+        </div>
       </div>
     </header>
   );
