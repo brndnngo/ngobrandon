@@ -1,1 +1,492 @@
 @import "tailwindcss";
+
+/* Sections opt into a dark treatment with data-theme="dark"; utilities written
+   as dark:… follow that attribute instead of the OS colour-scheme preference. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  /* Faces are referenced only through these three roles. The fallback inside
+     each var() keeps the site legible before the licensed files are added. */
+  --font-display: var(--font-season-mix, Georgia, "Times New Roman", serif);
+  --font-sans: var(--font-acumin, ui-sans-serif, system-ui, sans-serif);
+  --font-mono: var(--font-akkurat-mono, ui-monospace, "SFMono-Regular", monospace);
+
+  /* Type scale measured from the live Webflow site. */
+  --text-display: 4.8rem;
+  --text-display--line-height: 6rem;
+  --text-display--letter-spacing: -0.16rem;
+
+  --text-display-sm: 4.2rem;
+  --text-display-sm--line-height: 3rem;
+  --text-display-sm--letter-spacing: -0.08rem;
+
+  --text-stat: 2.5rem;
+  --text-stat--line-height: 1.1;
+  --text-stat--letter-spacing: -0.08rem;
+
+  --text-heading: 1.5rem;
+  --text-heading--line-height: 2rem;
+  --text-heading--letter-spacing: -0.06rem;
+
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.25rem;
+  --text-body--letter-spacing: -0.02rem;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1rem;
+  --text-eyebrow--letter-spacing: 0.01rem;
+
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --color-muted: #777777;
+  --color-subtle: #f2f2f2;
+  --color-border: #e2e2e2;
+  --color-accent: #F05A24;
+
+  --spacing-gutter: 1.25rem;
+  --spacing-page: 2.5rem;
+  --spacing-page-sm: 1.5rem;
+  --spacing-nav: 3rem;
+  --spacing-footer-card-x: 1rem;
+  --spacing-footer-card-y: 0.75rem;
+  --container-page: 90rem;
+  --page-rail: 20vw;
+  --page-rail-narrow: 10vw;
+
+  --nav-height: 40px;
+  --nav-kbd-radius: 0.25rem;
+  --nav-kbd-padding-x: 0.5rem;
+  --nav-kbd-padding-y: 4px;
+  --spacing-nav-kbd: 0.625rem;
+  --footer-row-height: calc(4.5rem + 13px);
+}
+
+:root {
+  --color-nav-foreground: var(--color-foreground);
+}
+
+[data-theme="dark"] {
+  --color-background: #171717;
+  --color-foreground: #ffffff;
+  --color-muted: #a0a0a0;
+  --color-subtle: #2f2f2f;
+  --color-border: #2f2f2f;
+}
+
+/* The nav floats above sections of either treatment, so its colour is driven by
+   whichever section currently sits beneath it rather than by its own ancestors. */
+[data-nav-theme="dark"] {
+  --color-nav-foreground: #ffffff;
+}
+
+[data-nav-theme="light"] {
+  --color-nav-foreground: #171717;
+}
+
+@layer utilities {
+  /* Live Webflow column: 40px / 20vw, then 10vw at 767, 24px at 479. */
+  .page-column {
+    margin-left: var(--spacing-page);
+    margin-right: var(--page-rail);
+  }
+
+  @media (max-width: 767px) {
+    .page-column {
+      margin-right: var(--page-rail-narrow);
+    }
+  }
+
+  @media (max-width: 479px) {
+    .page-column {
+      margin-left: var(--spacing-page-sm);
+      margin-right: var(--spacing-page-sm);
+    }
+  }
+
+  .page-rail {
+    position: fixed;
+    inset-block: 0;
+    left: calc(100vw - var(--page-rail));
+    right: 0;
+    z-index: 998;
+    display: none;
+    flex-direction: column;
+    margin-inline: var(--spacing-page);
+  }
+
+  @media (min-width: 64rem) {
+    .page-rail {
+      display: flex;
+    }
+  }
+
+  /* 16 equal columns. The home split is column 6: left occupies 1–6, right 7–16. */
+  .page-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    padding-inline: 1.5rem;
+  }
+
+  .page-grid-left,
+  .page-grid-right,
+  .page-grid-bio,
+  .page-grid-clock {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 64rem) {
+    .page-grid {
+      grid-template-columns: repeat(16, minmax(0, 1fr));
+    }
+
+    .page-grid-left {
+      grid-column: 1 / 7;
+    }
+
+    .page-grid-right {
+      grid-column: 7 / -1;
+    }
+
+    .page-grid-bio {
+      grid-column: 7 / 14;
+    }
+
+    .page-grid-clock {
+      grid-column: 13 / -1;
+    }
+
+    /* Keep the 16 tracks gapless so they match nav / work index.
+       40px lives inside the headline cell, so the bio still starts on column 7. */
+    .home-bio .page-grid-left {
+      padding-right: var(--spacing-page);
+    }
+  }
+
+  @media (max-width: 479px) {
+    .page-grid {
+      padding-inline: var(--spacing-page-sm);
+    }
+  }
+
+  .home-snap {
+    height: 100dvh;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .home-snap::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .home-snap-section {
+    min-height: 100dvh;
+    scrollbar-width: none;
+  }
+
+  .home-snap-section::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .home-snap-section-inner {
+    box-sizing: border-box;
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    padding-top: var(--nav-height);
+  }
+
+  .home-snap-section-inner--after-footer {
+    padding-top: calc(var(--nav-height) + var(--footer-row-height));
+  }
+
+  .home-footer {
+    background-color: var(--color-background);
+  }
+
+  .work-index {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo-strip {
+    --photo-rest-w: 14.5rem;
+    --photo-rest-h: 9.65rem;
+    --photo-scale: 1.8;
+    --photo-gap: 1.25rem;
+    --photo-radius: var(--radius-lg);
+    --photo-opacity: 1;
+    --photo-dim: 0.7;
+    --photo-in: 240ms;
+    --photo-out: 180ms;
+    --photo-ease: cubic-bezier(0.23, 1, 0.32, 1);
+    --photo-loop: 50s;
+    --photo-bump-margin: 24px;
+    --photo-caption-h: 2.75rem;
+    position: relative;
+    width: 100%;
+  }
+
+  .photo-strip-viewport {
+    overflow: hidden;
+    width: 100%;
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-y;
+  }
+
+  .photo-strip[data-dragging] .photo-strip-viewport {
+    cursor: grabbing;
+  }
+
+  .photo-strip-stage {
+    display: flex;
+    height: calc(var(--photo-rest-h) * var(--photo-scale));
+    align-items: center;
+  }
+
+  .photo-strip-bump {
+    display: flex;
+    min-width: 100%;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .photo-strip-track {
+    display: flex;
+    width: max-content;
+    pointer-events: none;
+  }
+
+  .photo-strip[data-active] .photo-strip-frame:not(.is-active) .photo-strip-visual {
+    opacity: var(--photo-dim);
+  }
+
+  .photo-strip-set {
+    display: flex;
+    pointer-events: none;
+    padding-right: var(--photo-gap);
+    gap: var(--photo-gap);
+  }
+
+  .photo-strip-frame {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: var(--photo-rest-w);
+    height: var(--photo-rest-h);
+    flex: none;
+    outline: none;
+    pointer-events: auto;
+    touch-action: pan-y;
+  }
+
+  .photo-strip-frame.is-active {
+    z-index: 2;
+  }
+
+  .photo-strip-visual {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--photo-radius);
+    opacity: var(--photo-opacity);
+    transform: scale(1);
+    transform-origin: center center;
+    transition-property: transform, opacity, border-radius;
+    transition-duration: var(--photo-out);
+    transition-timing-function: var(--photo-ease);
+  }
+
+  .photo-strip-frame.is-active .photo-strip-visual {
+    opacity: 1;
+    border-radius: calc(var(--photo-radius) / var(--photo-scale));
+    transform: scale(var(--photo-scale));
+    transition-duration: var(--photo-in);
+  }
+
+  .photo-strip-frame:focus-visible .photo-strip-visual {
+    box-shadow: 0 0 0 2px var(--color-foreground);
+  }
+
+  .photo-strip-caption-slot {
+    position: relative;
+    height: var(--photo-caption-h);
+    margin-top: 0.75rem;
+  }
+
+  .photo-strip-caption {
+    position: absolute;
+    top: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1rem;
+    row-gap: 0.125rem;
+    pointer-events: none;
+    transition-property: opacity;
+    transition-duration: var(--photo-out);
+    transition-timing-function: var(--photo-ease);
+  }
+
+  .photo-strip[data-active] .photo-strip-caption {
+    transition-duration: var(--photo-in);
+  }
+
+  .home-wordmark-slot {
+    container-type: inline-size;
+    margin-top: 2.5rem;
+  }
+
+  .home-wordmark {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 18cqi, 16rem);
+    line-height: 0.9;
+    letter-spacing: -0.033em;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 63.99rem) {
+    .photo-strip {
+      --photo-rest-w: 10.5rem;
+      --photo-rest-h: 7rem;
+      --photo-scale: 1.7;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .photo-strip-track {
+      animation: none !important;
+    }
+
+    .photo-strip-bump,
+    .photo-strip-visual,
+    .photo-strip-caption {
+      transition: none !important;
+    }
+
+    .photo-strip-frame.is-active .photo-strip-visual {
+      transform: none;
+      border-radius: var(--photo-radius);
+      opacity: 1;
+    }
+
+    .photo-strip-stage {
+      height: var(--photo-rest-h);
+    }
+
+    .photo-strip-viewport {
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+  }
+
+  .project-caption {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto 2.5rem;
+    column-gap: 1rem;
+    row-gap: 0.25rem;
+    padding-top: 0.75rem;
+    align-items: baseline;
+  }
+
+  .project-caption > p:nth-child(3) {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  @media (min-width: 64rem) {
+    .home-snap {
+      scroll-snap-type: y mandatory;
+    }
+
+    .home-snap-section {
+      height: 100dvh;
+      overflow-y: auto;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    .home-snap-section--top {
+      height: calc(100dvh - var(--footer-row-height));
+      min-height: 0;
+    }
+
+    .home-footer {
+      position: sticky;
+      top: var(--nav-height);
+      z-index: 40;
+    }
+
+    .work-index {
+      flex: 1;
+      min-height: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-snap {
+      scroll-snap-type: none;
+    }
+
+    .home-snap-section {
+      height: auto;
+      min-height: 100dvh;
+      overflow: visible;
+      scroll-snap-stop: normal;
+    }
+
+    .home-snap-section--top {
+      height: auto;
+    }
+
+    .home-footer {
+      position: static;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    width: 0;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    letter-spacing: var(--text-body--letter-spacing);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 400;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
