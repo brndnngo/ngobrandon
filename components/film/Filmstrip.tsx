@@ -4,11 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { useGSAP } from "@/components/motion/gsap";
 
-export type FilmFrame = {
-  src: string;
-  alt: string;
-  location: string;
-};
+import type { FilmFrame } from "@/content/film";
 
 export function Filmstrip({ frames }: { frames: FilmFrame[] }) {
   const scroller = useRef<HTMLDivElement>(null);

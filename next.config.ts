@@ -31,6 +31,7 @@ const nextConfig: NextConfig = {
       { source: "/project/wc", destination: "/gated/wc" },
       { source: "/project/alchemy", destination: "/gated/alchemy" },
       { source: "/project/receive", destination: "/gated/receive" },
+      { source: "/photo", destination: "/film" },
     ];
   },
 };

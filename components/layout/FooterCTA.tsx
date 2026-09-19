@@ -1,32 +1,28 @@
-import { siteConfig } from "@/lib/site";
+import { CopyEmailButton } from "@/components/layout/CopyEmailButton";
 
 export function FooterCTA() {
   return (
-    <section className="pt-32 pb-16">
-      <div className="grid gap-12 md:grid-cols-[3fr_2fr]">
-        <h2 data-reveal className="text-balance font-display text-display">
-          Let&rsquo;s chat sometime <span aria-hidden>✧</span>
-        </h2>
-
-        <div data-reveal className="flex flex-col justify-end gap-6">
-          <p className="max-w-prose text-body">
-            Feel free to hit my line if you want to chat — from design
-            technology to French house music. I&rsquo;m always excited to
-            exchange new ideas with fellow creatives.
-          </p>
-
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="group inline-flex flex-col gap-1 text-body"
+    <section className="pt-32 pb-10">
+      <div className="relative grid gap-4 lg:grid-cols-2 lg:items-start lg:gap-16">
+        <div className="min-w-0 @container">
+          <h2
+            data-reveal
+            className="font-display text-[clamp(1.75rem,10cqi,var(--text-display-sm))] leading-[0.75] tracking-[-0.08rem] [text-box-trim:trim-start] [text-box-edge:cap] lg:whitespace-nowrap"
           >
-            <span className="text-muted">
-              Find some time together <span aria-hidden>↓</span>
+            Let&rsquo;s chat sometime{" "}
+            <span aria-hidden className="text-(--color-accent)">
+              ✧
             </span>
-            <span className="underline-offset-4 group-hover:underline">
-              {siteConfig.email}
-            </span>
-          </a>
+          </h2>
         </div>
+
+        <p data-reveal className="min-w-0 text-body text-muted">
+          Feel free to hit my line if you want to chat — from design technology
+          to French house music. I&rsquo;m always excited to exchange new ideas
+          with fellow creatives.
+        </p>
+
+        <CopyEmailButton />
       </div>
     </section>
   );

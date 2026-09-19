@@ -3,7 +3,7 @@ export const siteConfig = {
   role: "Senior product designer",
   email: "hey.brandonngo@gmail.com",
   timeZone: "America/Los_Angeles",
-  city: "Los Angeles, CA",
+  city: "Los Angeles",
   // Placeholder until the canonical domain is chosen from the six that
   // currently resolve to the Webflow site.
   url: "https://ngobrandon.com",
@@ -11,15 +11,13 @@ export const siteConfig = {
 
 export const navLinks = [
   { href: "/", label: "Work" },
-  { href: "/about", label: "About" },
-  { href: "/film", label: "Film⁺" },
+  { href: "/about", label: "Info" },
+  { href: "/film", label: "Photo" },
 ] as const;
 
 export const socialLinks = [
   { href: "https://www.linkedin.com/in/brandonngo72/", label: "LinkedIn" },
+  { href: "#", label: "X" },
   { href: "https://medium.com/@brandonngo", label: "Medium" },
-  {
-    href: "https://drive.google.com/file/d/1WnK3HvbBPPZeHgqlIpguvV_9lQP7q7wI/view?usp=sharing",
-    label: "Resume",
-  },
+  { href: "#", label: "GitHub" },
 ] as const;

@@ -29,6 +29,31 @@ export const project = defineType({
       description: "Short line under the name on the homepage card.",
     }),
     defineField({
+      name: "indexTitle",
+      title: "Index title",
+      type: "string",
+      description:
+        "Name shown on the homepage work index when it should differ from the case-study title.",
+    }),
+    defineField({
+      name: "discipline",
+      type: "string",
+      description: "Right-hand caption line on the homepage work index.",
+    }),
+    defineField({
+      name: "color",
+      title: "Index marker color",
+      type: "string",
+      description: "Hex value for the 8×8 project marker on the work index.",
+    }),
+    defineField({
+      name: "href",
+      title: "External URL",
+      type: "url",
+      description:
+        "If set, the work index links out instead of opening a case study.",
+    }),
+    defineField({
       name: "year",
       type: "string",
     }),

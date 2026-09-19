@@ -16,7 +16,7 @@ import { ScrollTrigger, gsap, useGSAP } from "@/components/motion/gsap";
  * No-JS default is `data-nav-theme="light"` on `<html>`, matching the majority
  * of pages. Dark pages (film) set the attribute on their root section too.
  */
-const NAV_LINE = 35;
+const NAV_LINE = 20;
 
 export function NavThemeController() {
   const pathname = usePathname();

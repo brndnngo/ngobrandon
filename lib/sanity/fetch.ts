@@ -58,5 +58,7 @@ export async function getPublicProjectSlugs(): Promise<string[]> {
     );
     if (remote?.length) return remote;
   }
-  return seedCards.filter((card) => !card.gated).map((card) => card.slug);
+  return seedCards
+    .filter((card) => !card.gated && !card.href)
+    .map((card) => card.slug);
 }

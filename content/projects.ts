@@ -11,26 +11,34 @@ export const seedCards: ProjectCard[] = [
       "I joined as a senior product designer and became the product manager for a social streaming platform built around microdramas.",
     gated: true,
     order: 1,
+    discipline: "Experience design",
+    color: "#171717",
   },
   {
     slug: "alchemy",
     title: "Amazon",
+    indexTitle: "Amazon Alchemy",
     cardTitle: "Design systems for warehouses worldwide",
     year: "2025",
     summary:
       "I led key efforts on the Alchemy Design System as part of an ongoing 3-year initiative to unify design standards across the fulfillment network.",
     gated: true,
     order: 2,
+    discipline: "Design systems",
+    color: "#FF9900",
   },
   {
     slug: "receive",
     title: "Amazon",
+    indexTitle: "Amazon Receive",
     cardTitle: "Streamlining tracking & processing inventory",
     year: "2023",
     summary:
       "I led the design of two programs that replaced 20+ legacy tools and standardized how Amazon's fulfillment centers receive inventory.",
     gated: true,
     order: 3,
+    discipline: "Product design",
+    color: "#232F3E",
   },
   {
     slug: "literal",
@@ -41,6 +49,8 @@ export const seedCards: ProjectCard[] = [
       "I redesigned the reading experience for an EdTech platform serving 800K+ students nationwide.",
     gated: false,
     order: 4,
+    discipline: "Product design",
+    color: "#2B6CB0",
   },
   {
     slug: "playbook",
@@ -51,6 +61,21 @@ export const seedCards: ProjectCard[] = [
       "I partnered with Playbook’s founding team to establish the company’s early visual and interaction foundations.",
     gated: false,
     order: 5,
+    discipline: "Design systems",
+    color: "#6B4F3A",
+  },
+  {
+    slug: "ucla-hci",
+    title: "UCLA HCI",
+    cardTitle: "Natural language processing research under Professor Xiang Chen",
+    year: "2020",
+    summary:
+      "Natural language processing research under Professor Xiang Chen.",
+    gated: false,
+    order: 6,
+    discipline: "Research",
+    color: "#2774AE",
+    href: "https://hci.ucla.edu/",
   },
 ];
 

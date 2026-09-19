@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/site";
 
+const TIME_PLACEHOLDER = "00:00:00 AM";
+
 function formatTime() {
   return new Intl.DateTimeFormat("en-US", {
     hour: "2-digit",
@@ -13,9 +15,13 @@ function formatTime() {
   }).format(new Date());
 }
 
-export function Clock() {
-  // Rendered empty on the server so the markup matches before hydration; the
-  // time would otherwise differ between server and client render.
+export function Clock({
+  variant = "default",
+}: {
+  variant?: "default" | "bar";
+}) {
+  // Rendered as a placeholder on the server so the markup matches before
+  // hydration; the time would otherwise differ between server and client.
   const [time, setTime] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,10 +30,32 @@ export function Clock() {
     return () => clearInterval(id);
   }, []);
 
+  const isBar = variant === "bar";
+
   return (
-    <div className="flex items-center gap-2 font-mono text-eyebrow text-muted">
+    <div
+      className={
+        isBar
+          ? "flex items-center gap-4 text-body text-muted"
+          : "flex items-center gap-2 text-body"
+      }
+      aria-label={siteConfig.city}
+    >
       <span>{siteConfig.city}</span>
-      {time ? <time suppressHydrationWarning>{time}</time> : null}
+      <span className={isBar ? "relative inline-block tabular-nums text-[13px]" : "relative inline-block tabular-nums"}>
+        <span aria-hidden className="invisible">
+          {TIME_PLACEHOLDER}
+        </span>
+        {time ? (
+          <time
+            aria-hidden
+            className="absolute inset-0"
+            suppressHydrationWarning
+          >
+            {time}
+          </time>
+        ) : null}
+      </span>
     </div>
   );
 }

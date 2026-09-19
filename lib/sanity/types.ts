@@ -13,6 +13,13 @@ export type ProjectCard = {
   summary: string;
   gated: boolean;
   order: number;
+  /** Homepage list/caption name when it differs from the case-study title. */
+  indexTitle?: string | null;
+  discipline?: string | null;
+  /** Hex for the 8×8 index marker. */
+  color?: string | null;
+  /** External URL; when set, the index does not route to a case study. */
+  href?: string | null;
   preview?: string | null;
   thumbnail?: SanityImageSource | string | null;
 };
