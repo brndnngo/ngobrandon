@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HomeScroll } from "@/components/home/HomeScroll";
 import { PhotoStrip } from "@/components/home/PhotoStrip";
 import { WorkIndex } from "@/components/home/WorkIndex";
 import { Bracket } from "@/components/layout/Bracket";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 function HomeBio() {
   return (
     <div className="home-bio page-grid gap-y-6 pt-4 pb-8">
-      <p className="page-grid-left text-heading text-muted">
+      <p className="page-grid-left font-display text-heading text-muted">
         <span className="text-foreground">{siteConfig.name}</span> is a product
         designer based in LA — working across product and design systems.
       </p>
@@ -48,7 +49,7 @@ export default async function HomePage() {
   const projects = await getProjectCards();
 
   return (
-    <main className="home-snap">
+    <HomeScroll>
       <section data-nav="light" className="home-snap-section home-snap-section--top">
         <div className="home-snap-section-inner">
           <HomeBio />
@@ -85,6 +86,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-    </main>
+    </HomeScroll>
   );
 }

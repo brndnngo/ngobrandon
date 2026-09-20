@@ -24,6 +24,10 @@
   --text-stat--line-height: 1.1;
   --text-stat--letter-spacing: -0.08rem;
 
+  --text-title: 2rem;
+  --text-title--line-height: 3rem;
+  --text-title--letter-spacing: -0.06rem;
+
   --text-heading: 1.5rem;
   --text-heading--line-height: 2rem;
   --text-heading--letter-spacing: -0.06rem;
@@ -44,6 +48,10 @@
   --color-accent: #F05A24;
 
   --spacing-gutter: 1.25rem;
+  /* Figma home list: 16px gap between 32px / 48px title rows. */
+  --spacing-work-index: 1rem;
+  /* Figma node 161:1082 is 542px; 7 of 16 tracks is wider and wraps to 2 lines. */
+  --home-bio-max: 33.875rem;
   --spacing-page: 2.5rem;
   --spacing-page-sm: 1.5rem;
   --spacing-nav: 3rem;
@@ -131,7 +139,10 @@
   .page-grid-left,
   .page-grid-right,
   .page-grid-bio,
-  .page-grid-clock {
+  .page-grid-clock,
+  .page-grid-inset,
+  .page-grid-info-label,
+  .page-grid-info-list {
     grid-column: 1 / -1;
   }
 
@@ -152,8 +163,24 @@
       grid-column: 7 / 14;
     }
 
+    .home-bio .page-grid-bio {
+      max-width: var(--home-bio-max);
+    }
+
     .page-grid-clock {
       grid-column: 13 / -1;
+    }
+
+    .page-grid-inset {
+      grid-column: 4 / 14;
+    }
+
+    .page-grid-info-label {
+      grid-column: 4 / 6;
+    }
+
+    .page-grid-info-list {
+      grid-column: 6 / 14;
     }
 
     /* Keep the 16 tracks gapless so they match nav / work index.
@@ -170,6 +197,9 @@
   }
 
   .home-snap {
+    --home-section-duration: 760ms;
+    --home-section-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --home-section-threshold: 34;
     height: 100dvh;
     overflow-y: auto;
     scrollbar-width: none;
@@ -341,6 +371,7 @@
   .home-wordmark {
     margin: 0;
     font-family: var(--font-display);
+    font-weight: 300;
     font-size: clamp(2.25rem, 18cqi, 16rem);
     line-height: 0.9;
     letter-spacing: -0.033em;
@@ -401,14 +432,22 @@
 
   @media (min-width: 64rem) {
     .home-snap {
-      scroll-snap-type: y mandatory;
+      overscroll-behavior-y: none;
+    }
+
+    .home-snap[data-home-scroll] {
+      overflow: hidden;
+    }
+
+    .home-snap[data-home-scroll] .home-track {
+      will-change: transform;
+      transform: translate3d(0, var(--home-track-offset, 0px), 0);
+      transition: transform var(--home-section-duration) var(--home-section-ease);
     }
 
     .home-snap-section {
       height: 100dvh;
       overflow-y: auto;
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
     }
 
     .home-snap-section--top {
@@ -422,6 +461,17 @@
       z-index: 40;
     }
 
+    .home-snap[data-home-scroll] .home-footer {
+      position: fixed;
+      inset-inline: 0;
+      top: calc(100dvh - var(--footer-row-height));
+      transition: top var(--home-section-duration) var(--home-section-ease);
+    }
+
+    .home-snap[data-home-scroll][data-home-section="1"] .home-footer {
+      top: var(--nav-height);
+    }
+
     .work-index {
       flex: 1;
       min-height: 0;
@@ -430,22 +480,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .home-snap {
-      scroll-snap-type: none;
-    }
-
-    .home-snap-section {
-      height: auto;
-      min-height: 100dvh;
-      overflow: visible;
-      scroll-snap-stop: normal;
-    }
-
-    .home-snap-section--top {
-      height: auto;
-    }
-
-    .home-footer {
-      position: static;
+      --home-section-duration: 0ms;
     }
   }
 }

@@ -31,7 +31,7 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
     <div className="work-index">
       <div className="work-index-split page-grid hidden min-h-0 flex-1 pb-8 lg:grid">
         <nav className="page-grid-left" aria-label="Selected work">
-          <ul className="flex flex-col gap-(--spacing-gutter)">
+          <ul className="flex flex-col gap-(--spacing-work-index)">
             {projects.map((card) => {
               const isActive = card.slug === active.slug;
               const title = projectIndexTitle(card);
@@ -46,7 +46,7 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
                     }
                     onMouseOver={() => setActiveSlug(card.slug)}
                     onFocus={() => setActiveSlug(card.slug)}
-                    className={`grid grid-cols-[0.5rem_auto] items-center gap-x-3 font-display text-stat outline-none ${
+                    className={`grid grid-cols-[0.5rem_auto] items-center gap-x-3 font-display text-title outline-none ${
                       isActive
                         ? "text-foreground"
                         : "text-muted hover:text-foreground focus-visible:text-foreground"
