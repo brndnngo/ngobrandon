@@ -889,7 +889,6 @@
     padding: 0 var(--nav-kbd-padding-x);
     border-radius: var(--nav-kbd-radius);
     background: var(--cmd-key-fill);
-    box-shadow: inset 0 0 0 1px var(--cmd-key-stroke);
     font-family: var(--font-sans);
     font-size: 14px;
     font-weight: 400;
@@ -1018,7 +1017,6 @@
     justify-content: center;
     border-radius: 2px;
     background: var(--cmd-key-fill);
-    box-shadow: inset 0 0 0 1px var(--cmd-key-stroke);
     padding: 3px 8px 0;
     font-family: var(--font-sans);
     font-size: 14px;
