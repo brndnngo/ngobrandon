@@ -653,11 +653,12 @@ html[data-theme-ready] {
 
     .home-wordmark-slot {
       margin-top: 0;
-      padding-bottom: 0.5rem;
+      padding-bottom: 8px;
     }
 
     .home-wordmark {
       font-size: clamp(2.5rem, calc(100cqi / 5.231), 16rem);
+      padding-bottom: 0.22em;
     }
 
     .home-footer .page-grid:last-of-type,
@@ -708,6 +709,15 @@ html[data-theme-ready] {
       gap: 1rem;
     }
 
+    .home-photo-bar.page-grid {
+      height: auto;
+      padding-bottom: 8px;
+    }
+
+    .wordmark-footer {
+      padding-bottom: 8px;
+    }
+
     .wordmark-footer-row.page-grid {
       flex-wrap: wrap;
     }
@@ -715,7 +725,7 @@ html[data-theme-ready] {
     .wordmark-footer .home-wordmark-slot {
       flex: 1 0 100%;
       width: 100%;
-      padding-bottom: 0.5rem;
+      padding-bottom: 8px;
     }
 
     .wordmark-footer-bar {
@@ -730,6 +740,19 @@ html[data-theme-ready] {
     .wordmark-footer .home-photo-clock {
       flex: none;
       white-space: nowrap;
+    }
+
+    .info-end .home-wordmark-slot {
+      grid-column: 1 / -1;
+      width: 100%;
+      text-align: center;
+    }
+
+    .info-end .home-wordmark {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: clamp(2.5rem, calc(100cqi / 5.231), 16rem);
     }
 
     .home-photo-more {
@@ -758,6 +781,50 @@ html[data-theme-ready] {
 
     .photo-strip-caption-slot {
       margin-top: 0;
+    }
+
+    .wordmark-footer-row.page-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .wordmark-footer .home-wordmark-slot {
+      flex: 1 0 100%;
+      width: 100%;
+      padding-bottom: 8px;
+    }
+
+    .wordmark-footer {
+      padding-bottom: 8px;
+    }
+
+    .home-wordmark,
+    .info-end .home-wordmark {
+      padding-bottom: 0.22em;
+    }
+
+    .wordmark-footer-bar {
+      display: flex;
+      flex: 1 0 100%;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .info-end .home-wordmark-slot {
+      grid-column: 1 / -1;
+      width: 100%;
+      text-align: center;
+    }
+
+    .info-end .home-wordmark {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: clamp(2.5rem, calc(100cqi / 5.231), 16rem);
     }
   }
 
