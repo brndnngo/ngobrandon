@@ -304,7 +304,7 @@ export function CommandPalette({
             className="command-palette-close"
             onClick={close}
           >
-            Close
+            <span className="command-palette-close-label">Close</span>
             <span className="command-palette-kbd" aria-hidden>
               Esc
             </span>

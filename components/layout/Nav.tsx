@@ -87,12 +87,22 @@ export function Nav({ projects }: { projects: ProjectCard[] }) {
               aria-haspopup="dialog"
               aria-expanded={open}
               aria-controls="command-palette"
-              className="flex items-baseline gap-(--spacing-nav-kbd) text-body"
+              className="group flex cursor-pointer items-baseline gap-(--spacing-nav-kbd) text-body"
               onClick={() => setOpen((current) => !current)}
             >
-              Menu
-              <kbd className="inline-flex items-center rounded-(--nav-kbd-radius) bg-subtle px-(--nav-kbd-padding-x) py-(--nav-kbd-padding-y) font-sans text-[14px] leading-none font-normal tracking-[-0.05em] text-muted">
-                {shortcut}
+              <span className="group-hover:opacity-60">Menu</span>
+              <kbd className="site-nav-kbd">
+                {shortcut === "⌘K" ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src="/icons/command-k.svg"
+                    alt=""
+                    width={19.1023}
+                    height={10.08}
+                  />
+                ) : (
+                  shortcut
+                )}
               </kbd>
             </button>
           </div>

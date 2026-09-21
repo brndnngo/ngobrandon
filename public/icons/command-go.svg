@@ -1,6 +1,6 @@
 <svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="Go button">
-<rect width="21" height="21" rx="2" fill="#F2F2F2"/>
+<rect x="0.5" y="0.5" width="20" height="20" rx="2" fill="#F2F2F2" stroke="#E2E2E2"/>
 <g id="Go">
 <path d="M16.185 12.501H6.15001L8.00001 14.199L7.50001 14.799L4.66297 12.1541V12.0877L7.50001 9.25078L8.00001 9.85078L6.15001 11.601H16.185V12.501Z" fill="#777777"/>
 <path d="M15.4 12.501V6.20098H16.337V12.501H15.4Z" fill="#777777"/>
