@@ -108,7 +108,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
   const reduceRef = useRef(false);
   const activeRef = useRef<number | null>(null);
   const frameRef = useRef<HTMLAnchorElement | null>(null);
-  const transitioningRef = useRef(false);
   const draggingRef = useRef(false);
   const didDragRef = useRef(false);
   const pointerRef = useRef({ x: 0, y: 0 });
@@ -121,7 +120,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     vx: 0,
   });
   const idleTimerRef = useRef(0);
-  const lockTimerRef = useRef(0);
   const [active, setActive] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -153,25 +151,15 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     window.clearTimeout(idleTimerRef.current);
   }, []);
 
-  const lockFor = useCallback((duration: number) => {
-    transitioningRef.current = duration > 0;
-    window.clearTimeout(lockTimerRef.current);
-    if (duration <= 0) return;
-    lockTimerRef.current = window.setTimeout(() => {
-      transitioningRef.current = false;
-    }, duration);
-  }, []);
-
   const deactivate = useCallback(() => {
     clearIdle();
-    lockFor(mediaMatches(REDUCE_QUERY) ? 0 : 180);
     activeRef.current = null;
     frameRef.current = null;
     motionRef.current.bumpTarget = 0;
     setActive(null);
     setCaption(null);
     if (!draggingRef.current) resumeTrack();
-  }, [clearIdle, lockFor, resumeTrack]);
+  }, [clearIdle, resumeTrack]);
 
   const activate = useCallback(
     (index: number, frame: HTMLAnchorElement) => {
@@ -203,7 +191,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
       const origin = root.getBoundingClientRect();
       const motion = motionRef.current;
 
-      lockFor(240);
       motion.bumpTarget = motion.bump + nextBump;
       const pad = margin;
       let left = expanded.left - origin.left + nextBump;
@@ -219,7 +206,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
       }
       setCaption({ left, width });
     },
-    [lockFor, pauseTrack],
+    [pauseTrack],
   );
 
   const deactivateRef = useRef(deactivate);
@@ -346,7 +333,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
   useEffect(
     () => () => {
       clearIdle();
-      window.clearTimeout(lockTimerRef.current);
     },
     [clearIdle],
   );
@@ -363,7 +349,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     if (!frame) return;
     const index = Number(frame.dataset.photoIndex);
     if (!Number.isFinite(index)) return;
-    if (transitioningRef.current) return;
     if (activeRef.current === index) return;
     if (activeRef.current !== null && pointInActive(event.clientX, event.clientY)) {
       return;
@@ -374,7 +359,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
   const onStripPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     pointerRef.current = { x: event.clientX, y: event.clientY };
     if (draggingRef.current) return;
-    if (!isDesktop() || isReduce() || transitioningRef.current) return;
+    if (!isDesktop() || isReduce()) return;
     if (activeRef.current === null) return;
     if (pointInActive(event.clientX, event.clientY)) return;
     const frame = (event.target as Element).closest<HTMLAnchorElement>(
@@ -476,7 +461,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
   ) => {
     if (draggingRef.current) return;
     if (!isDesktop() || isReduce()) return;
-    if (transitioningRef.current && activeRef.current !== index) return;
     activate(index, event.currentTarget);
   };
 

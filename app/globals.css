@@ -554,13 +554,35 @@
     @media (max-width: 26.874rem) and (hover: hover) {
       .photo-strip {
         --photo-scale: 1.18;
+        --photo-in: 180ms;
+        --photo-out: 140ms;
       }
+    }
+
+    .photo-strip-caption-slot {
+      overflow: hidden;
+      transition-property: height, margin-top;
+      transition-duration: var(--photo-out);
+      transition-timing-function: var(--photo-ease);
+    }
+
+    .photo-strip[data-active] .photo-strip-caption-slot {
+      transition-duration: var(--photo-in);
     }
 
     .photo-strip:not([data-active]) .photo-strip-caption-slot {
       height: 0;
       margin-top: 0;
-      overflow: hidden;
+    }
+
+    /* Hover-capable windows keep the caption row reserved so scale/bump
+       aren't fighting a layout jump the way tablet/desktop already avoid. */
+    @media (hover: hover) {
+      .photo-strip:not([data-active]) .photo-strip-caption-slot {
+        height: var(--photo-caption-h);
+        margin-top: 0.75rem;
+        overflow: visible;
+      }
     }
 
     .home-wordmark-slot {

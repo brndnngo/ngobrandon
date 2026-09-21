@@ -49,7 +49,7 @@ export function ProjectCardLink({ card }: { card: ProjectCard }) {
           <h2 className="text-body">{card.title}</h2>
           <p className="mt-1 text-body text-muted">{card.cardTitle}</p>
         </div>
-        <p className="text-eyebrow text-muted">{card.year}</p>
+        <p className="text-eyebrow">{card.year}</p>
       </div>
     </Link>
   );
