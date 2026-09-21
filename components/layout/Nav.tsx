@@ -49,7 +49,7 @@ export function Nav({ projects }: { projects: ProjectCard[] }) {
   return (
     <>
       <header
-        className="site-nav fixed inset-x-0 top-0 z-[1100] h-(--nav-height) text-(--color-nav-foreground)"
+        className="site-nav fixed inset-x-0 top-0 z-[1100] box-border h-(--nav-height) py-2 text-(--color-nav-foreground)"
         style={{ transition: "color 300ms ease" }}
       >
         <div className="page-grid h-full items-center">
