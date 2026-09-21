@@ -87,7 +87,7 @@ export function Nav({ projects }: { projects: ProjectCard[] }) {
               aria-haspopup="dialog"
               aria-expanded={open}
               aria-controls="command-palette"
-              className="group flex cursor-pointer items-baseline gap-(--spacing-nav-kbd) text-body"
+              className="group flex cursor-pointer items-baseline gap-(--spacing-nav-kbd) text-body outline-none"
               onClick={() => setOpen((current) => !current)}
             >
               <span className="group-hover:opacity-60">Menu</span>
