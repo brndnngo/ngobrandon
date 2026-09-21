@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/about",
+        destination: "/info",
+        permanent: true,
+      },
+      {
         source: "/watchclub",
         destination: "/project/wc",
         permanent: true,

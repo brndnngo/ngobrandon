@@ -14,7 +14,6 @@ import {
 } from "react";
 import type { FilmFrame } from "@/content/film";
 
-const IDLE_RESUME_MS = 4000;
 const LOOP_SECONDS = 50;
 const DRAG_GAIN = 1;
 const DRAG_THRESHOLD = 8;
@@ -27,8 +26,7 @@ const TAU_DECEL = 0.2;
 const TAU_ACCEL = 0.133;
 const TAU_BUMP_IN = 0.08;
 const TAU_BUMP_OUT = 0.06;
-const DESKTOP_QUERY =
-  "(min-width: 64rem) and (hover: hover) and (pointer: fine)";
+const HOVER_QUERY = "(hover: hover)";
 const REDUCE_QUERY = "(prefers-reduced-motion: reduce)";
 
 type CaptionBox = {
@@ -175,13 +173,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     if (!draggingRef.current) resumeTrack();
   }, [clearIdle, lockFor, resumeTrack]);
 
-  const armIdle = useCallback(() => {
-    clearIdle();
-    idleTimerRef.current = window.setTimeout(() => {
-      deactivate();
-    }, IDLE_RESUME_MS);
-  }, [clearIdle, deactivate]);
-
   const activate = useCallback(
     (index: number, frame: HTMLAnchorElement) => {
       if (draggingRef.current || didDragRef.current) return;
@@ -214,10 +205,19 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
 
       lockFor(240);
       motion.bumpTarget = motion.bump + nextBump;
-      setCaption({
-        left: expanded.left - origin.left + nextBump,
-        width: expanded.width,
-      });
+      const pad = margin;
+      let left = expanded.left - origin.left + nextBump;
+      let width = expanded.width;
+      const minLeft = pad;
+      const maxRight = origin.width - pad;
+      if (left < minLeft) {
+        width -= minLeft - left;
+        left = minLeft;
+      }
+      if (left + width > maxRight) {
+        width = Math.max(0, maxRight - left);
+      }
+      setCaption({ left, width });
     },
     [lockFor, pauseTrack],
   );
@@ -287,9 +287,8 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     };
 
     measure();
-    if (looping) {
-      const hovering = rootRef.current?.matches(":hover");
-      if (!hovering && motion.targetVel === 0) motion.targetVel = motion.cruise;
+    if (looping && activeRef.current === null && motion.targetVel === 0) {
+      motion.targetVel = motion.cruise;
     }
 
     const resize = new ResizeObserver(() => {
@@ -352,7 +351,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     [clearIdle],
   );
 
-  const isDesktop = () => mediaMatches(DESKTOP_QUERY);
+  const isDesktop = () => mediaMatches(HOVER_QUERY);
   const isReduce = () => mediaMatches(REDUCE_QUERY);
 
   const onStripPointerOver = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -370,11 +369,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
       return;
     }
     activate(index, frame);
-  };
-
-  const onStripPointerEnter = () => {
-    if (!isDesktop() || isReduce() || draggingRef.current) return;
-    pauseTrack();
   };
 
   const onStripPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -460,28 +454,19 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
-    const over = rootRef.current?.matches(":hover");
+    const el = document.elementFromPoint(event.clientX, event.clientY);
+    const frame = el instanceof Element ? el.closest("[data-photo-index]") : null;
     motionRef.current.vel = drag.vx;
-    if (over) pauseTrack();
+    if (frame && isDesktop() && !isReduce()) pauseTrack();
     else resumeTrack();
     window.setTimeout(() => {
       didDragRef.current = false;
     }, 0);
   };
 
-  const onFrameClick = (
-    event: MouseEvent<HTMLAnchorElement>,
-    index: number,
-  ) => {
+  const onFrameClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (didDragRef.current) {
       event.preventDefault();
-      return;
-    }
-    if (isReduce() || isDesktop()) return;
-    if (activeRef.current !== index) {
-      event.preventDefault();
-      activate(index, event.currentTarget);
-      armIdle();
     }
   };
 
@@ -490,9 +475,9 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     index: number,
   ) => {
     if (draggingRef.current) return;
+    if (!isDesktop() || isReduce()) return;
     if (transitioningRef.current && activeRef.current !== index) return;
     activate(index, event.currentTarget);
-    if (!isDesktop()) armIdle();
   };
 
   const onFrameBlur = (event: FocusEvent<HTMLAnchorElement>) => {
@@ -514,7 +499,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
       data-paused={paused ? "" : undefined}
       data-dragging={dragging ? "" : undefined}
       data-loop={looping ? "" : undefined}
-      onPointerEnter={onStripPointerEnter}
       onPointerOver={onStripPointerOver}
       onPointerMove={onStripPointerMove}
       onPointerLeave={onStripPointerLeave}
@@ -551,7 +535,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
                         draggable={false}
                         onFocus={(event) => onFrameFocus(event, index)}
                         onBlur={onFrameBlur}
-                        onClick={(event) => onFrameClick(event, index)}
+                        onClick={onFrameClick}
                       >
                         <span className="photo-strip-visual">
                           <Image

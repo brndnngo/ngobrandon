@@ -42,7 +42,7 @@ export function Clock({
       aria-label={siteConfig.city}
     >
       <span>{siteConfig.city}</span>
-      <span className={isBar ? "relative inline-block tabular-nums text-[13px]" : "relative inline-block tabular-nums"}>
+      <span className="relative inline-block tabular-nums">
         <span aria-hidden className="invisible">
           {TIME_PLACEHOLDER}
         </span>

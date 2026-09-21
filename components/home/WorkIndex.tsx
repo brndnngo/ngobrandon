@@ -29,9 +29,9 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
 
   return (
     <div className="work-index">
-      <div className="work-index-split page-grid hidden min-h-0 flex-1 pb-8 lg:grid">
+      <div className="work-index-split page-grid min-h-0 flex-1 pb-8">
         <nav className="page-grid-left" aria-label="Selected work">
-          <ul className="flex flex-col gap-(--spacing-gutter)">
+          <ul className="flex flex-col gap-(--spacing-work-index)">
             {projects.map((card) => {
               const isActive = card.slug === active.slug;
               const title = projectIndexTitle(card);
@@ -46,7 +46,7 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
                     }
                     onMouseOver={() => setActiveSlug(card.slug)}
                     onFocus={() => setActiveSlug(card.slug)}
-                    className={`grid grid-cols-[0.5rem_auto] items-center gap-x-3 font-display text-stat outline-none ${
+                    className={`grid grid-cols-[0.5rem_auto] items-center gap-x-3 font-display text-title outline-none ${
                       isActive
                         ? "text-foreground"
                         : "text-muted hover:text-foreground focus-visible:text-foreground"
@@ -69,36 +69,38 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
           </ul>
         </nav>
 
-        <div className="page-grid-right flex min-h-0 min-w-0 flex-col">
+        <div className="page-grid-right min-w-0">
           <Link
             {...projectLinkProps(active)}
             tabIndex={-1}
-            className="flex min-h-0 w-full flex-1 flex-col outline-none"
+            className="work-index-preview-link outline-none"
             aria-label={
               active.gated
                 ? `${projectIndexTitle(active)}, password protected`
                 : projectIndexTitle(active)
             }
           >
-            <ProjectMedia card={active} className="min-h-0 w-full flex-1" />
+            <div className="work-index-preview">
+              <ProjectMedia card={active} />
+            </div>
             <ProjectCaption card={active} />
           </Link>
         </div>
       </div>
 
-      <ul className="grid grid-cols-1 gap-6 px-6 py-6 md:grid-cols-2 md:gap-10 md:py-8 lg:hidden">
+      <ul className="work-index-stack page-grid gap-y-6 md:pb-8">
         {projects.map((card) => (
-          <li key={card.slug}>
+          <li key={card.slug} className="col-span-full">
             <Link
               {...projectLinkProps(card)}
-              className="grid gap-4 outline-none"
+              className="grid outline-none"
               aria-label={
                 card.gated
                   ? `${projectIndexTitle(card)}, password protected`
                   : projectIndexTitle(card)
               }
             >
-              <ProjectMedia card={card} className="aspect-[16/10]" />
+              <ProjectMedia card={card} />
               <ProjectCaption card={card} />
             </Link>
           </li>
