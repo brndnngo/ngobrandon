@@ -450,7 +450,7 @@ export function CommandPalette({
             {active?.shortcut ? (
               <>
                 <span className="command-palette-hint-or">or</span>
-                <span className="command-palette-kbd command-palette-kbd--key command-palette-kbd--d">
+                <span className="command-palette-kbd command-palette-kbd--key">
                   D
                 </span>
               </>

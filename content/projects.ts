@@ -69,13 +69,13 @@ export const seedCards: ProjectCard[] = [
   {
     slug: "ucla-hci",
     title: "UCLA HCI",
-    cardTitle: "Natural language processing research under Professor Xiang Chen",
+    cardTitle: "AI-assisted journaling platform for CBT therapy",
     year: "2020",
     summary:
-      "Natural language processing research under Professor Xiang Chen.",
+      "AI-assisted journaling platform for CBT therapy.",
     gated: false,
     order: 6,
-    discipline: "Research",
+    discipline: "Experience design",
     color: "#2774AE",
     href: "https://hci.ucla.edu/",
   },
