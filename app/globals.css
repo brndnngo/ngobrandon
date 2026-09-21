@@ -509,14 +509,21 @@ html[data-theme-ready] {
   }
 
   .info-end .home-wordmark-slot {
-    grid-column: 1 / 13;
     margin-top: 2.5rem;
     padding-bottom: 0;
+  }
+
+  .info-end .home-wordmark {
+    font-size: clamp(2.5rem, calc(100cqi / 6.35), 16rem);
   }
 
   .wordmark-footer .theme-clock {
     display: inline-flex;
     align-items: baseline;
+  }
+
+  .wordmark-footer-bar {
+    display: contents;
   }
 
   .home-wordmark {
@@ -701,10 +708,22 @@ html[data-theme-ready] {
       gap: 1rem;
     }
 
+    .wordmark-footer-row.page-grid {
+      flex-wrap: wrap;
+    }
+
     .wordmark-footer .home-wordmark-slot {
       flex: 1 0 100%;
       width: 100%;
       padding-bottom: 0.5rem;
+    }
+
+    .wordmark-footer-bar {
+      display: flex;
+      flex: 1 0 100%;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
     }
 
     .wordmark-footer .home-photo-credit,
