@@ -41,11 +41,19 @@
   --text-eyebrow--letter-spacing: -0.035rem;
 
   --color-background: #ffffff;
+  --color-surface: #ffffff;
   --color-foreground: #111111;
-  --color-muted: #888888;
+  --color-muted: #6f6f6f;
   --color-subtle: #f2f2f2;
   --color-border: #e2e2e2;
   --color-accent: #F05A24;
+  --color-kbd-fill: #f2f2f2;
+  --color-kbd-stroke: #e2e2e2;
+  --color-kbd-text: #6f6f6f;
+  --color-focus: #111111;
+  --color-selection-bg: #e8e4df;
+  --color-selection-fg: #111111;
+  --color-on-media: #ece8e3;
 
   --spacing-gutter: 1.25rem;
   /* Figma home list: 16px gap between 32px / 48px title rows. */
@@ -77,9 +85,9 @@
   --cmd-inset: 0.5rem;
   --cmd-list-pad-top: 0.75rem;
   --cmd-list-pad-bottom: 1rem;
-  --cmd-meta: #777777;
-  --cmd-key-fill: #f2f2f2;
-  --cmd-key-stroke: #e2e2e2;
+  --cmd-meta: var(--color-kbd-text);
+  --cmd-key-fill: var(--color-kbd-fill);
+  --cmd-key-stroke: var(--color-kbd-stroke);
   --cmd-duration: 150ms;
   --cmd-ease: cubic-bezier(0.23, 1, 0.32, 1);
   --cmd-scale: 0.96;
@@ -96,24 +104,52 @@
 
 :root {
   --color-nav-foreground: var(--color-foreground);
+  --color-watch-club: #171717;
+  --theme-fade: 0ms;
+  color-scheme: light;
 }
 
 [data-theme="dark"] {
-  --color-background: #171717;
-  --color-foreground: #ffffff;
-  --color-muted: #a0a0a0;
-  --color-subtle: #2f2f2f;
-  --color-border: #2f2f2f;
+  --color-background: #111111;
+  --color-surface: #191919;
+  --color-foreground: #f2f2f2;
+  --color-muted: #a3a3a3;
+  --color-subtle: #242424;
+  --color-border: #2e2e2e;
+  --color-kbd-fill: #2a2a2a;
+  --color-kbd-stroke: #3a3a3a;
+  --color-kbd-text: #a3a3a3;
+  --color-focus: #f2f2f2;
+  --color-selection-bg: #3a3a3a;
+  --color-selection-fg: #f2f2f2;
+  --cmd-shadow:
+    -40px 24px 80px 0 rgba(0, 0, 0, 0.45),
+    0 16px 48px 0 rgba(0, 0, 0, 0.35);
+  --cmd-meta: var(--color-kbd-text);
+  --cmd-key-fill: var(--color-kbd-fill);
+  --cmd-key-stroke: var(--color-kbd-stroke);
+  --color-watch-club: #ffffff;
+  color-scheme: dark;
+}
+
+html[data-theme-ready] {
+  --theme-fade: 200ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme-ready] {
+    --theme-fade: 0ms;
+  }
 }
 
 /* The nav floats above sections of either treatment, so its colour is driven by
    whichever section currently sits beneath it rather than by its own ancestors. */
 [data-nav-theme="dark"] {
-  --color-nav-foreground: #ffffff;
+  --color-nav-foreground: var(--color-on-media);
 }
 
 [data-nav-theme="light"] {
-  --color-nav-foreground: #171717;
+  --color-nav-foreground: var(--color-foreground);
 }
 
 @layer utilities {
@@ -904,14 +940,17 @@
     overflow: hidden;
     border: 1px solid var(--cmd-key-stroke);
     border-radius: var(--cmd-radius);
-    background: var(--color-background);
+    background: var(--color-surface);
     box-shadow: var(--cmd-shadow);
     opacity: 0;
     transform: translate(-50%, -50%) scale(var(--cmd-scale));
     transform-origin: center center;
     transition:
       opacity var(--cmd-duration) var(--cmd-ease),
-      transform var(--cmd-duration) var(--cmd-ease);
+      transform var(--cmd-duration) var(--cmd-ease),
+      background-color var(--theme-fade) ease,
+      color var(--theme-fade) ease,
+      border-color var(--theme-fade) ease;
   }
 
   .command-palette-root[data-open="true"] .command-palette-backdrop,
@@ -1011,6 +1050,10 @@
     line-height: 18px;
   }
 
+  .command-palette-kbd--d {
+    padding-top: 2px;
+  }
+
   .command-palette-go {
     display: flex;
     flex: none;
@@ -1064,7 +1107,8 @@
     padding-inline: 11px 12px;
   }
 
-  .command-palette-option[aria-selected="true"] {
+  .command-palette-option[aria-selected="true"],
+  .command-palette-option:hover {
     background: var(--color-subtle);
   }
 
@@ -1082,7 +1126,7 @@
     align-items: center;
     justify-content: space-between;
     border-top: 1px solid var(--cmd-key-stroke);
-    padding: 12px;
+    padding: 12px 0.9375rem 12px 12px;
   }
 
   .command-palette-hint {
@@ -1096,8 +1140,28 @@
     color: var(--color-foreground);
   }
 
-  .command-palette-hint > span:last-child {
+  .command-palette-hint-nav,
+  .command-palette-hint > .command-palette-go:first-of-type {
     margin-left: 4px;
+  }
+
+  .command-palette-hint-or {
+    color: var(--cmd-meta);
+  }
+
+  .command-palette-option-label {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .command-palette-option-sub {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--cmd-meta);
   }
 
   @media (max-width: 479px) {
@@ -1117,6 +1181,12 @@
 @layer base {
   html {
     scrollbar-width: none;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    transition:
+      background-color var(--theme-fade) ease,
+      color var(--theme-fade) ease,
+      border-color var(--theme-fade) ease;
   }
 
   html[data-cmd-open],
@@ -1138,6 +1208,15 @@
     letter-spacing: var(--text-body--letter-spacing);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color var(--theme-fade) ease,
+      color var(--theme-fade) ease,
+      border-color var(--theme-fade) ease;
+  }
+
+  ::selection {
+    background-color: var(--color-selection-bg);
+    color: var(--color-selection-fg);
   }
 
   h1,
@@ -1147,6 +1226,48 @@
   h5,
   h6 {
     font-weight: 400;
+  }
+
+  .theme-clock {
+    appearance: none;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-align: inherit;
+  }
+
+  .theme-clock-mark::before {
+    content: "✹";
+  }
+
+  [data-theme="dark"] .theme-clock-mark::before {
+    content: "✧";
+  }
+
+  .theme-clock:focus-visible,
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .site-nav,
+  .command-palette,
+  .command-palette-header,
+  .command-palette-footer,
+  .command-palette-option,
+  .site-nav-kbd,
+  .command-palette-kbd,
+  footer {
+    transition:
+      background-color var(--theme-fade) ease,
+      color var(--theme-fade) ease,
+      border-color var(--theme-fade) ease;
   }
 }
 
@@ -1159,4 +1280,17 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+.text-muted,
+.text-foreground,
+.bg-background,
+.theme-clock,
+.command-palette-option,
+.command-palette-heading,
+.command-palette-input,
+.command-palette-empty {
+  transition-property: background-color, color, border-color;
+  transition-duration: var(--theme-fade);
+  transition-timing-function: ease;
 }

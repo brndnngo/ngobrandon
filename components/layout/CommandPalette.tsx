@@ -20,16 +20,27 @@ import {
   projectIsExternal,
   projectIsSelected,
 } from "@/lib/project-card";
-import { navLinks } from "@/lib/site";
+import { navLinks, siteConfig } from "@/lib/site";
+import { CommandGoIcon } from "@/components/layout/CommandIcons";
+import { useTheme } from "@/components/layout/ThemeProvider";
 import type { ProjectCard } from "@/lib/sanity/types";
+
+type PaletteKind = "page" | "project" | "action";
+type PaletteAction = "theme" | "email";
 
 type PaletteItem = {
   id: string;
   label: string;
-  href: string;
-  kind: "page" | "project";
+  href?: string;
+  kind: PaletteKind;
   color?: string;
   external?: boolean;
+  subtitle?: string;
+  keywords?: string[];
+  searchOnly?: boolean;
+  shortcut?: string;
+  action?: PaletteAction;
+  verb?: "Go" | "Switch" | "Copy";
 };
 
 const FOCUSABLE =
@@ -37,6 +48,20 @@ const FOCUSABLE =
 
 function isCoarsePointer() {
   return window.matchMedia("(pointer: coarse)").matches;
+}
+
+function itemMatches(item: PaletteItem, needle: string) {
+  if (!needle) return !item.searchOnly;
+  const fields = [item.label, ...(item.keywords ?? [])];
+  return fields.some((field) => field.toLowerCase().includes(needle));
+}
+
+function groupHeading(item: PaletteItem, prev: PaletteItem | undefined, needle: string) {
+  if (item.kind === prev?.kind) return null;
+  if (item.kind === "page") return "Go to";
+  if (item.kind === "project") return needle ? "Projects" : "Selected projects";
+  if (item.kind === "action") return "Actions";
+  return null;
 }
 
 function SearchIcon() {
@@ -71,6 +96,7 @@ export function CommandPalette({
   triggerRef: RefObject<HTMLButtonElement | null>;
 }) {
   const router = useRouter();
+  const { theme, toggle } = useTheme();
   const listId = useId();
   const labelId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -80,6 +106,7 @@ export function CommandPalette({
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   const needle = query.trim().toLowerCase();
 
@@ -89,6 +116,7 @@ export function CommandPalette({
       label: link.label,
       href: link.href,
       kind: "page",
+      verb: "Go",
     }));
     const projectItems: PaletteItem[] = (projects ?? [])
       .filter((card) => (needle ? true : projectIsSelected(card)))
@@ -99,11 +127,34 @@ export function CommandPalette({
         kind: "project",
         color: projectColor(card),
         external: projectIsExternal(card),
+        verb: "Go",
       }));
-    const all = [...pages, ...projectItems];
-    if (!needle) return all;
-    return all.filter((item) => item.label.toLowerCase().includes(needle));
-  }, [needle, projects]);
+    const actions: PaletteItem[] = [
+      {
+        id: "action:theme",
+        label: "Change theme",
+        kind: "action",
+        action: "theme",
+        verb: "Switch",
+        shortcut: "D",
+        searchOnly: true,
+        subtitle: theme === "dark" ? "Light mode" : "Dark mode",
+        keywords: ["theme", "dark", "light", "mode", "appearance", "night", "day"],
+      },
+      {
+        id: "action:email",
+        label: emailCopied ? "Email copied" : "Copy email",
+        kind: "action",
+        action: "email",
+        verb: "Copy",
+        searchOnly: true,
+        subtitle: siteConfig.email,
+        keywords: ["email", "mail", "contact", "copy", "reach", "hire"],
+      },
+    ];
+    const all = [...pages, ...projectItems, ...actions];
+    return all.filter((item) => itemMatches(item, needle));
+  }, [emailCopied, needle, projects, theme]);
 
   const active = items[selected] ?? null;
   const activeId = active ? `${listId}-${active.id}` : undefined;
@@ -117,6 +168,7 @@ export function CommandPalette({
       setPresent(true);
       setQuery("");
       setSelected(0);
+      setEmailCopied(false);
       const frame = requestAnimationFrame(() => {
         requestAnimationFrame(() => setVisible(true));
       });
@@ -140,24 +192,40 @@ export function CommandPalette({
 
   const close = useCallback(() => onOpenChange(false), [onOpenChange]);
 
-  const go = useCallback(
+  const run = useCallback(
     (item: PaletteItem) => {
+      if (item.action === "theme") {
+        toggle();
+        return;
+      }
+      if (item.action === "email") {
+        const write = async () => {
+          try {
+            await navigator.clipboard.writeText(siteConfig.email);
+          } catch {
+            /* clipboard can be blocked; still confirm in the row */
+          }
+          setEmailCopied(true);
+        };
+        void write();
+        return;
+      }
       onOpenChange(false);
-      if (item.external) {
+      if (item.external && item.href) {
         window.open(item.href, "_blank", "noreferrer");
         return;
       }
-      router.push(item.href);
+      if (item.href) router.push(item.href);
     },
-    [onOpenChange, router],
+    [onOpenChange, router, toggle],
   );
 
   const itemsRef = useRef(items);
   const selectedRef = useRef(selected);
-  const goRef = useRef(go);
+  const runRef = useRef(run);
   itemsRef.current = items;
   selectedRef.current = selected;
-  goRef.current = go;
+  runRef.current = run;
 
   useEffect(() => {
     if (!open || !present) return;
@@ -221,7 +289,7 @@ export function CommandPalette({
         if (target?.closest("button")) return;
         event.preventDefault();
         const next = currentItems[selectedRef.current];
-        if (next) goRef.current(next);
+        if (next) runRef.current(next);
       }
     }
 
@@ -256,6 +324,8 @@ export function CommandPalette({
 
   if (!mounted || !present) return null;
 
+  const verb = active?.verb ?? "Go";
+
   return createPortal(
     <div
       className="command-palette-root"
@@ -278,7 +348,7 @@ export function CommandPalette({
           <label className="command-palette-search" htmlFor={`${listId}-input`}>
             <SearchIcon />
             <span id={labelId} className="sr-only">
-              Search pages and projects
+              Search or jump to
             </span>
             <input
               ref={inputRef}
@@ -286,7 +356,7 @@ export function CommandPalette({
               className="command-palette-input text-body"
               type="text"
               value={query}
-              placeholder="Search pages & projects"
+              placeholder="Search or jump to…"
               autoComplete="off"
               autoCorrect="off"
               spellCheck={false}
@@ -315,25 +385,18 @@ export function CommandPalette({
           <ul
             id={listId}
             role="listbox"
-            aria-label="Pages and projects"
+            aria-label="Pages, projects, and actions"
             className="command-palette-list"
           >
-            {items.some((item) => item.kind === "page") ? (
-              <li role="presentation" className="command-palette-heading">
-                Pages
-              </li>
-            ) : null}
             {items.map((item, index) => {
-              const prev = items[index - 1];
-              const showProjectsHeading =
-                item.kind === "project" && prev?.kind !== "project";
+              const heading = groupHeading(item, items[index - 1], needle);
               const optionId = `${listId}-${item.id}`;
               const isSelected = index === selected;
               return (
                 <Fragment key={item.id}>
-                  {showProjectsHeading ? (
+                  {heading ? (
                     <li role="presentation" className="command-palette-heading">
-                      {needle ? "Projects" : "Selected projects"}
+                      {heading}
                     </li>
                   ) : null}
                   <li
@@ -343,7 +406,7 @@ export function CommandPalette({
                     data-kind={item.kind}
                     className="command-palette-option text-body cursor-pointer"
                     onMouseEnter={() => setSelected(index)}
-                    onClick={() => go(item)}
+                    onClick={() => run(item)}
                   >
                     {item.kind === "project" ? (
                       <span
@@ -352,7 +415,16 @@ export function CommandPalette({
                         style={{ backgroundColor: item.color }}
                       />
                     ) : null}
-                    <span className="truncate">{item.label}</span>
+                    {item.subtitle ? (
+                      <span className="command-palette-option-label">
+                        <span className="shrink-0">{item.label}</span>
+                        <span className="command-palette-option-sub">
+                          {item.subtitle}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="truncate">{item.label}</span>
+                    )}
                   </li>
                 </Fragment>
               );
@@ -368,19 +440,21 @@ export function CommandPalette({
           <div className="command-palette-hint">
             <span className="command-palette-kbd command-palette-kbd--key">↑</span>
             <span className="command-palette-kbd command-palette-kbd--key">↓</span>
-            <span>Navigate</span>
+            <span className="command-palette-hint-nav">Navigate</span>
           </div>
           <div className="command-palette-hint">
-            <span>Go</span>
+            <span>{verb}</span>
             <span className="command-palette-go">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/icons/command-go.svg"
-                alt=""
-                width={21}
-                height={21}
-              />
+              <CommandGoIcon />
             </span>
+            {active?.shortcut ? (
+              <>
+                <span className="command-palette-hint-or">or</span>
+                <span className="command-palette-kbd command-palette-kbd--key command-palette-kbd--d">
+                  D
+                </span>
+              </>
+            ) : null}
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Nav } from "@/components/layout/Nav";
 import { NavScrim } from "@/components/layout/NavScrim";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { NavThemeController } from "@/components/motion/NavThemeController";
 import { RevealController } from "@/components/motion/RevealController";
 import type { ProjectCard } from "@/lib/sanity/types";
@@ -20,7 +21,7 @@ export function SiteShell({
   const isInfo = pathname === "/info";
 
   return (
-    <>
+    <ThemeProvider>
       <NavScrim />
       <Nav projects={projects} />
       <RevealController />
@@ -35,6 +36,6 @@ export function SiteShell({
           <Footer />
         </>
       )}
-    </>
+    </ThemeProvider>
   );
 }
