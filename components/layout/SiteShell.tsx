@@ -6,8 +6,15 @@ import { Nav } from "@/components/layout/Nav";
 import { NavScrim } from "@/components/layout/NavScrim";
 import { NavThemeController } from "@/components/motion/NavThemeController";
 import { RevealController } from "@/components/motion/RevealController";
+import type { ProjectCard } from "@/lib/sanity/types";
 
-export function SiteShell({ children }: { children: React.ReactNode }) {
+export function SiteShell({
+  children,
+  projects,
+}: {
+  children: React.ReactNode;
+  projects: ProjectCard[];
+}) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isInfo = pathname === "/info";
@@ -15,7 +22,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <NavScrim />
-      <Nav />
+      <Nav projects={projects} />
       <RevealController />
       <NavThemeController />
       {isHome ? (

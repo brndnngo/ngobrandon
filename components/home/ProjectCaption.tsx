@@ -17,7 +17,7 @@ export function ProjectCaption({ card }: { card: ProjectCard }) {
         />
         <p className="min-w-0 truncate text-body">{title}</p>
       </div>
-      <p className="text-right text-eyebrow text-muted">{card.year}</p>
+      <p className="text-right text-eyebrow">{card.year}</p>
       <p className="min-w-0 text-body text-muted">{card.cardTitle}</p>
       <p className="text-right text-eyebrow text-muted">
         {card.discipline}

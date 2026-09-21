@@ -9,6 +9,7 @@ export const projectCardsQuery = groq`
     summary,
     gated,
     order,
+    selected,
     indexTitle,
     discipline,
     color,

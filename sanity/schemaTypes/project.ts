@@ -97,6 +97,14 @@ export const project = defineType({
       initialValue: false,
     }),
     defineField({
+      name: "selected",
+      title: "Selected project",
+      type: "boolean",
+      description:
+        "Show this project in the command palette before the user types a search.",
+      initialValue: false,
+    }),
+    defineField({
       name: "order",
       type: "number",
       validation: (rule) => rule.required(),
