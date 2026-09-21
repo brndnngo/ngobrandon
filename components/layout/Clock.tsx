@@ -1,47 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/site";
+import { useTheme } from "@/components/layout/ThemeProvider";
 
 const TIME_PLACEHOLDER = "00:00:00 AM";
-
-function formatTime() {
-  return new Intl.DateTimeFormat("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-    timeZone: siteConfig.timeZone,
-  }).format(new Date());
-}
 
 export function Clock({
   variant = "default",
 }: {
   variant?: "default" | "bar";
 }) {
-  // Rendered as a placeholder on the server so the markup matches before
-  // hydration; the time would otherwise differ between server and client.
-  const [time, setTime] = useState<string | null>(null);
-
-  useEffect(() => {
-    setTime(formatTime());
-    const id = setInterval(() => setTime(formatTime()), 1000);
-    return () => clearInterval(id);
-  }, []);
-
+  const { theme, time, toggle } = useTheme();
   const isBar = variant === "bar";
+  const next = theme === "dark" ? "light" : "dark";
 
   return (
-    <div
+    <button
+      type="button"
+      onClick={toggle}
+      aria-pressed={theme === "dark"}
+      aria-label={`Use ${next} appearance`}
       className={
         isBar
-          ? "flex items-center gap-4 text-body text-muted"
-          : "flex items-center gap-2 text-body"
+          ? "theme-clock flex items-center gap-4 text-body text-muted"
+          : "theme-clock flex items-center gap-2 text-body"
       }
-      aria-label={siteConfig.city}
     >
-      <span>{siteConfig.city}</span>
+      <span className="flex items-center gap-1">
+        <span className="theme-clock-mark" aria-hidden />
+        <span>{siteConfig.city}</span>
+      </span>
       <span className="relative inline-block tabular-nums">
         <span aria-hidden className="invisible">
           {TIME_PLACEHOLDER}
@@ -56,6 +44,6 @@ export function Clock({
           </time>
         ) : null}
       </span>
-    </div>
+    </button>
   );
 }

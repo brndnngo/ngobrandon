@@ -4,6 +4,8 @@ export const siteConfig = {
   email: "hey.brandonngo@gmail.com",
   timeZone: "America/Los_Angeles",
   city: "Los Angeles",
+  lat: 34.05,
+  lng: -118.24,
   // Placeholder until the canonical domain is chosen from the six that
   // currently resolve to the Webflow site.
   url: "https://ngobrandon.com",

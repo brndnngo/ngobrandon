@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Filmstrip } from "@/components/film/Filmstrip";
 import { Container } from "@/components/layout/Container";
 import { FooterCTA } from "@/components/layout/FooterCTA";
-import { PageTheme } from "@/components/layout/PageTheme";
 import { filmFrames } from "@/content/film";
 
 export const metadata: Metadata = {
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
 export default function FilmPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <PageTheme theme="dark" />
       <section data-nav="dark" className="pb-8">
         <Container className="flex items-end justify-between pt-16 pb-10">
           <div>

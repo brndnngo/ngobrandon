@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { CommandKIcon } from "@/components/layout/CommandIcons";
 import { CommandPalette } from "@/components/layout/CommandPalette";
 import { navLinks, siteConfig } from "@/lib/site";
 import type { ProjectCard } from "@/lib/sanity/types";
@@ -92,17 +93,7 @@ export function Nav({ projects }: { projects: ProjectCard[] }) {
             >
               <span className="group-hover:opacity-60">Menu</span>
               <kbd className="site-nav-kbd">
-                {shortcut === "⌘K" ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src="/icons/command-k.svg"
-                    alt=""
-                    width={19.1023}
-                    height={10.08}
-                  />
-                ) : (
-                  shortcut
-                )}
+                {shortcut === "⌘K" ? <CommandKIcon /> : shortcut}
               </kbd>
             </button>
           </div>

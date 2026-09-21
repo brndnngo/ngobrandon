@@ -14,7 +14,12 @@ export function projectIsExternal(card: ProjectCard) {
 }
 
 export function projectColor(card: ProjectCard) {
-  return card.color || "var(--color-foreground)";
+  if (!card.color) return "var(--color-foreground)";
+  // Near-black Watch Club swatch would vanish on the dark page; map it to a token.
+  if (card.color.replace("#", "").toLowerCase() === "171717") {
+    return "var(--color-watch-club)";
+  }
+  return card.color;
 }
 
 export function projectIsSelected(card: ProjectCard) {
