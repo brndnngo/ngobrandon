@@ -47,8 +47,7 @@ export const experienceGroups: ExperienceGroup[] = [
       },
       {
         name: "UCLA HCI",
-        description:
-          "Natural language processing research under Professor Xiang Chen",
+        description: "AI-assisted journaling platform for CBT therapy",
         year: "2020",
         logo: "/logos/ucla-hci.svg",
         href: "https://hci.ucla.edu/",

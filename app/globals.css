@@ -84,7 +84,7 @@
   --cmd-header-height: 2.75rem;
   --cmd-inset: 0.5rem;
   --cmd-list-pad-top: 0.75rem;
-  --cmd-list-pad-bottom: 1rem;
+  --cmd-list-pad-bottom: var(--cmd-inset);
   --cmd-meta: var(--color-kbd-text);
   --cmd-key-fill: var(--color-kbd-fill);
   --cmd-key-stroke: var(--color-kbd-stroke);
@@ -1095,25 +1095,23 @@ html[data-theme-ready] {
     display: flex;
     height: var(--cmd-header-height);
     flex: none;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.5rem;
     border-bottom: 1px solid var(--cmd-key-stroke);
-    padding: 13px 0.9375rem 0 1.25rem;
+    padding: 0 0.9375rem 0 1.25rem;
   }
 
   .command-palette-search {
     display: flex;
     min-width: 0;
     flex: 1;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.75rem;
-    padding-top: 2px;
   }
 
   .command-palette-search svg {
     flex: none;
     display: block;
-    margin-top: 1px;
   }
 
   .command-palette-input {
@@ -1125,6 +1123,7 @@ html[data-theme-ready] {
     background: transparent;
     color: var(--color-foreground);
     outline: none;
+    transform: translateY(1px);
   }
 
   .command-palette-input::placeholder {
@@ -1135,7 +1134,7 @@ html[data-theme-ready] {
     appearance: none;
     display: flex;
     flex: none;
-    align-items: baseline;
+    align-items: center;
     gap: 8px;
     margin: 0;
     padding: 0;
@@ -1158,11 +1157,11 @@ html[data-theme-ready] {
     box-sizing: border-box;
     height: 21px;
     min-width: 36px;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     border-radius: 2px;
     background: var(--cmd-key-fill);
-    padding: 3px 8px 0;
+    padding: 0 8px;
     font-family: var(--font-sans);
     font-size: 14px;
     font-weight: 400;
@@ -1175,17 +1174,14 @@ html[data-theme-ready] {
     width: 21px;
     min-width: 21px;
     height: 21px;
-    padding: 3px 4px 0;
+    padding: 0 4px;
     line-height: 18px;
-  }
-
-  .command-palette-kbd--d {
-    padding-top: 2px;
   }
 
   .command-palette-go {
     display: flex;
     flex: none;
+    margin-left: 4px;
   }
 
   .command-palette-go img {
@@ -1255,7 +1251,7 @@ html[data-theme-ready] {
     align-items: center;
     justify-content: space-between;
     border-top: 1px solid var(--cmd-key-stroke);
-    padding: 12px 0.9375rem 12px 12px;
+    padding: 12px;
   }
 
   .command-palette-hint {
@@ -1269,8 +1265,7 @@ html[data-theme-ready] {
     color: var(--color-foreground);
   }
 
-  .command-palette-hint-nav,
-  .command-palette-hint > .command-palette-go:first-of-type {
+  .command-palette-hint-nav {
     margin-left: 4px;
   }
 
