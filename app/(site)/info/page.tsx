@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ExperienceGroup } from "@/components/info/ExperienceGroup";
 import { Bracket } from "@/components/layout/Bracket";
 import { FooterRow } from "@/components/layout/FooterRow";
+import { WordmarkFooter } from "@/components/layout/WordmarkFooter";
 import { Em } from "@/components/text/Em";
 import { experienceGroups } from "@/content/info";
 
@@ -45,7 +46,7 @@ export default function InfoPage() {
           </div>
         </div>
 
-        <div className="mt-8 pb-16">
+        <div className="mt-8 pb-8">
           {experienceGroups.map((group, index) => (
             <div key={group.label}>
               {index > 0 ? (
@@ -59,7 +60,10 @@ export default function InfoPage() {
         </div>
       </section>
 
-      <FooterRow />
+      <div className="info-end mt-auto">
+        <FooterRow className="info-footer" />
+        <WordmarkFooter />
+      </div>
     </>
   );
 }
