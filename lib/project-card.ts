@@ -17,6 +17,10 @@ export function projectColor(card: ProjectCard) {
   return card.color || "var(--color-foreground)";
 }
 
+export function projectIsSelected(card: ProjectCard) {
+  return Boolean(card.selected);
+}
+
 export type ProjectMediaSource =
   | { type: "image"; src: string; poster?: string }
   | { type: "video"; src: string; poster?: string }

@@ -1,9 +1,11 @@
 import { SiteShell } from "@/components/layout/SiteShell";
+import { getProjectCards } from "@/lib/sanity/fetch";
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <SiteShell>{children}</SiteShell>;
+  const projects = await getProjectCards();
+  return <SiteShell projects={projects}>{children}</SiteShell>;
 }
