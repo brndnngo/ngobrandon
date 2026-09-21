@@ -13,14 +13,14 @@ export function ProjectMedia({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-lg bg-subtle ${className}`.trim()}
+      className={`project-media relative aspect-video w-full overflow-hidden rounded-lg bg-subtle ${className}`.trim()}
     >
       {media?.type === "image" ? (
         <Image
           src={media.src}
           alt=""
           fill
-          sizes="(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-cover"
         />
       ) : null}

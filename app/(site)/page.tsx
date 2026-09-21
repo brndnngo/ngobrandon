@@ -18,25 +18,11 @@ export const metadata: Metadata = {
 
 function HomeBio() {
   return (
-    <div className="home-bio page-grid gap-y-6 pt-4 pb-8">
-      <p className="page-grid-left font-display text-heading text-muted">
+    <div className="home-bio page-grid gap-y-6 pt-6">
+      <p className="page-grid-intro font-display text-heading text-muted">
         <span className="text-foreground">{siteConfig.name}</span> is a product
         designer based in LA — working across product and design systems.
       </p>
-
-      <div className="page-grid-bio flex flex-col gap-4">
-        <p className="text-body">
-          At the moment, I&rsquo;m leading product and design at Watch Club, a
-          social streaming platform for microdramas. Before that I spent four
-          years at Amazon building tools for warehouse associates across the
-          world.
-        </p>
-        <p className="text-body">
-          My background spans digital experiences, brand identity, and design
-          systems. I&rsquo;ve led teams and worked hands-on to shape culture,
-          experiences, and long-term direction.
-        </p>
-      </div>
 
       <div className="col-span-full">
         <Bracket direction="down" />
@@ -58,34 +44,39 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <FooterRow className="home-footer" />
+      <div className="home-end">
+        <FooterRow className="home-footer" />
 
-      <section data-nav="light" className="home-snap-section">
-        <div className="home-snap-section-inner home-snap-section-inner--after-footer">
-          <div className="flex flex-1 flex-col justify-center">
-            <PhotoStrip photos={filmFrames} />
-            <div className="page-grid">
-              <div className="page-grid-bio home-wordmark-slot">
-                <p className="home-wordmark" aria-hidden>
-                  {siteConfig.name}
-                </p>
+        <section data-nav="light" className="home-snap-section">
+          <div className="home-snap-section-inner home-snap-section-inner--after-footer">
+            <div className="home-photo-cluster">
+              <PhotoStrip photos={filmFrames} />
+              <div className="page-grid">
+                <div className="page-grid-bio home-wordmark-slot">
+                  <p className="home-wordmark" aria-hidden>
+                    {siteConfig.name}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="page-grid home-photo-bar">
+              <Link
+                href="/film"
+                className="page-grid-left home-photo-more text-body text-muted hover:opacity-60"
+              >
+                More photos here
+              </Link>
+              <p className="home-photo-credit font-medium text-eyebrow text-muted">
+                Built with Next.js + v0 © 2026
+              </p>
+              <div className="page-grid-clock home-photo-clock">
+                <Clock variant="bar" />
               </div>
             </div>
           </div>
-
-          <div className="page-grid pb-6">
-            <Link
-              href="/film"
-              className="page-grid-left text-body text-muted hover:opacity-60"
-            >
-              More photos here
-            </Link>
-            <div className="page-grid-clock justify-self-end">
-              <Clock variant="bar" />
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </HomeScroll>
   );
 }

@@ -87,7 +87,7 @@ export function CopyEmailButton({
         aria-label="Copy email address"
         className="cursor-pointer text-left"
       >
-        <span className="block whitespace-nowrap text-eyebrow text-muted">
+        <span className="block whitespace-nowrap font-medium text-eyebrow text-muted">
           {copied ? copiedLabel : plainIdle}
         </span>
         <span

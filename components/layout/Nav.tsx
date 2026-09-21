@@ -14,7 +14,7 @@ export function Nav() {
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-[999] h-(--nav-height) text-(--color-nav-foreground)"
+      className="site-nav fixed inset-x-0 top-0 z-[999] h-(--nav-height) text-(--color-nav-foreground)"
       style={{ transition: "color 300ms ease" }}
     >
       <div className="page-grid h-full items-center">
@@ -23,7 +23,7 @@ export function Nav() {
         </Link>
 
         <div className="page-grid-right flex items-center justify-between gap-4">
-          <nav aria-label="Primary">
+          <nav aria-label="Primary" className="max-md:hidden">
             <ul className="flex items-center gap-(--spacing-nav)">
               {navLinks.map((link) => {
                 const active = isActive(pathname, link.href);

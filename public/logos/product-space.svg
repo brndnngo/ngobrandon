@@ -1,0 +1,27 @@
+<svg width="57" height="57" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="57" height="57" fill="#1E1E1E"/>
+<g id="About">
+<rect width="1440" height="1333" transform="translate(-475 -1116)" fill="white"/>
+<g id="Frame 157">
+<g clip-path="url(#clip0_0_1)">
+<rect width="56.9998" height="56.9998" rx="4" fill="#F2F2F2"/>
+<g id="Group 184">
+<g id="Group 196 1" clip-path="url(#clip1_0_1)">
+<path id="Vector" d="M28.8594 23.5918V34.1236L37.6434 29.1728C37.8965 29.0302 38.0534 28.7604 38.0534 28.4676V18.7627C38.0534 18.5234 37.9276 18.3021 37.723 18.1815L29.1938 13.1514C28.987 13.0294 28.7314 13.0289 28.5242 13.1501L20.1636 18.0377C19.9863 18.1413 19.9863 18.3998 20.1636 18.5036L28.8594 23.5918Z" fill="#111111"/>
+<path id="Vector_2" d="M19.4658 28.9708L27.7937 24.0919L19.8674 19.3841C19.6897 19.2786 19.4658 19.408 19.4658 19.6161V28.9708Z" fill="#111111"/>
+<path id="Vector_3" d="M19.4319 38.3868V29.7786L27.7931 34.8594V43.0821C27.7931 43.4959 27.3502 43.755 26.9949 43.5491L20.1013 39.5543C19.6872 39.3144 19.4319 38.869 19.4319 38.3868Z" fill="#111111"/>
+<path id="Vector_4" d="M27.8929 33.9509V24.9332L19.998 29.4084L27.8929 33.9509Z" fill="#111111"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_1">
+<rect width="56.9998" height="56.9998" rx="4" fill="white"/>
+</clipPath>
+<clipPath id="clip1_0_1">
+<rect width="18.6545" height="31.0908" fill="white" transform="translate(19.4318 12.9543)"/>
+</clipPath>
+</defs>
+</svg>

@@ -2,8 +2,11 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
-const ENABLE_QUERY = "(min-width: 64rem)";
+/* Two-pane snap from tablet. Stacked work inner-scrolls under the bio. */
+const ENABLE_QUERY = "(min-width: 48rem)";
 const REDUCE_QUERY = "(prefers-reduced-motion: reduce)";
+const RESIST_PX = 160;
+const INTENT_DECAY_MS = 100;
 
 function isTypingTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false;
@@ -35,15 +38,16 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       index: 0,
       locked: false,
       intent: 0,
+      resist: 0,
       touchY: null as number | null,
       unlock: 0,
+      decay: 0,
     };
 
     const footer = root.querySelector<HTMLElement>(".home-footer");
-    const footerHome =
-      footer?.nextElementSibling instanceof HTMLElement
-        ? footer.nextElementSibling
-        : null;
+    const footerHome = root.querySelector<HTMLElement>(
+      ".home-snap-section:not(.home-snap-section--top)",
+    );
 
     const pinFooter = (on: boolean) => {
       if (!footer) return;
@@ -51,8 +55,8 @@ export function HomeScroll({ children }: { children: ReactNode }) {
         root.appendChild(footer);
         return;
       }
-      if (footerHome && footerHome.parentElement === track) {
-        track.insertBefore(footer, footerHome);
+      if (footerHome?.parentElement) {
+        footerHome.parentElement.insertBefore(footer, footerHome);
         return;
       }
       track.appendChild(footer);
@@ -88,18 +92,53 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       root.dataset.homeSection = String(state.index);
     };
 
+    const resetIntent = () => {
+      state.intent = 0;
+      state.resist = 0;
+      window.clearTimeout(state.decay);
+    };
+
+    const queueIntentDecay = () => {
+      window.clearTimeout(state.decay);
+      state.decay = window.setTimeout(resetIntent, INTENT_DECAY_MS);
+    };
+
+    const consumeTowardSnap = (delta: number) => {
+      if (
+        (delta > 0 && state.intent < 0) ||
+        (delta < 0 && state.intent > 0)
+      ) {
+        state.intent = 0;
+        state.resist = 0;
+      }
+
+      queueIntentDecay();
+
+      const room = RESIST_PX - state.resist;
+      if (room > 0) {
+        const eat = Math.min(Math.abs(delta), room);
+        state.resist += eat;
+        const leftover = Math.abs(delta) - eat;
+        if (leftover <= 0) return false;
+        state.intent += Math.sign(delta) * leftover;
+      } else {
+        state.intent += delta;
+      }
+
+      return Math.abs(state.intent) >= threshold();
+    };
+
     const goTo = (next: number) => {
       if (state.locked) return;
-      const items = sections();
-      const last = items.length - 1;
+      const last = sections().length - 1;
       const clamped = Math.max(0, Math.min(last, next));
       if (clamped === state.index) {
-        state.intent = 0;
+        resetIntent();
         return;
       }
 
       state.index = clamped;
-      state.intent = 0;
+      resetIntent();
       state.locked = true;
       applyOffset();
       window.clearTimeout(state.unlock);
@@ -112,16 +151,44 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       goTo(state.index + direction);
     };
 
+    const workEl = () => root.querySelector<HTMLElement>(".work-index");
+
+    const workCanConsume = (deltaY: number) => {
+      if (state.index !== 0 || deltaY === 0) return false;
+      const work = workEl();
+      if (!work) return false;
+      const max = work.scrollHeight - work.clientHeight;
+      if (max <= 1) return false;
+      if (deltaY > 0) return work.scrollTop < max - 1;
+      return work.scrollTop > 1;
+    };
+
+    const overWorkList = (target: EventTarget | null) =>
+      target instanceof Element && Boolean(target.closest(".work-index"));
+
+    const giveWheelToWork = (event: WheelEvent, delta: number) => {
+      resetIntent();
+      const work = workEl();
+      if (!work) return;
+      if (!overWorkList(event.target)) {
+        event.preventDefault();
+        work.scrollTop += delta;
+      }
+    };
+
     const onWheel = (event: WheelEvent) => {
       if (!enableMq.matches) return;
+      const delta = wheelDeltaY(event);
+      if (workCanConsume(delta)) {
+        giveWheelToWork(event, delta);
+        return;
+      }
       event.preventDefault();
       if (Math.abs(event.deltaY) < 1 || state.locked) return;
-
-      state.intent += wheelDeltaY(event);
-      if (Math.abs(state.intent) < threshold()) return;
+      if (!consumeTowardSnap(delta)) return;
 
       const direction: 1 | -1 = state.intent > 0 ? 1 : -1;
-      state.intent = 0;
+      resetIntent();
       goBy(direction);
     };
 
@@ -139,6 +206,18 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       ) {
         return;
       }
+      const y = event.touches[0].clientY;
+      const deltaY = state.touchY === null ? 0 : state.touchY - y;
+      if (workCanConsume(deltaY)) {
+        resetIntent();
+        const work = workEl();
+        if (work && !overWorkList(target)) {
+          event.preventDefault();
+          work.scrollTop += deltaY;
+          state.touchY = y;
+        }
+        return;
+      }
       event.preventDefault();
     };
 
@@ -153,8 +232,14 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       }
       const deltaY = state.touchY - event.changedTouches[0].clientY;
       state.touchY = null;
-      if (Math.abs(deltaY) < threshold()) return;
-      goBy(deltaY > 0 ? 1 : -1);
+      if (workCanConsume(deltaY)) {
+        resetIntent();
+        return;
+      }
+      if (!consumeTowardSnap(deltaY)) return;
+      const direction: 1 | -1 = deltaY > 0 ? 1 : -1;
+      resetIntent();
+      goBy(direction);
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -210,19 +295,20 @@ export function HomeScroll({ children }: { children: ReactNode }) {
 
     const setEnabled = (on: boolean) => {
       window.clearTimeout(state.unlock);
+      resetIntent();
       state.locked = false;
-      state.intent = 0;
-      if (!on) {
-        pinFooter(false);
-        delete root.dataset.homeScroll;
-        delete root.dataset.homeSection;
-        track.style.removeProperty("--home-track-offset");
+      if (on) {
+        pinFooter(true);
+        root.scrollTop = 0;
+        root.dataset.homeScroll = "";
+        root.dataset.homeSection = String(state.index);
+        applyOffset();
         return;
       }
-      pinFooter(true);
-      root.dataset.homeScroll = "";
-      root.dataset.homeSection = String(state.index);
-      applyOffset();
+      delete root.dataset.homeScroll;
+      delete root.dataset.homeSection;
+      track.style.removeProperty("--home-track-offset");
+      pinFooter(false);
     };
 
     const onResize = () => {
@@ -243,6 +329,7 @@ export function HomeScroll({ children }: { children: ReactNode }) {
 
     return () => {
       window.clearTimeout(state.unlock);
+      window.clearTimeout(state.decay);
       root.removeEventListener("wheel", onWheel);
       root.removeEventListener("touchstart", onTouchStart);
       root.removeEventListener("touchmove", onTouchMove);
