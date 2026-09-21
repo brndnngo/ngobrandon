@@ -29,7 +29,9 @@ export function SiteShell({
       {isHome ? (
         children
       ) : isInfo ? (
-        <main className="flex-1 pt-(--nav-height)">{children}</main>
+        <main className="flex flex-1 flex-col pt-(--nav-height)">
+          {children}
+        </main>
       ) : (
         <>
           <main className="page-column flex-1 pt-(--nav-height)">{children}</main>
