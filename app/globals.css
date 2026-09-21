@@ -74,7 +74,6 @@
   --cmd-radius: 0.5rem;
   --cmd-row-height: 2.25rem;
   --cmd-header-height: 2.75rem;
-  --cmd-footer-height: 2.0625rem;
   --cmd-inset: 0.5rem;
   --cmd-list-pad-top: 0.75rem;
   --cmd-list-pad-bottom: 1rem;
@@ -1101,11 +1100,11 @@
 
   .command-palette-footer {
     display: flex;
-    height: var(--cmd-footer-height);
     flex: none;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
-    padding: 0 12px 12px;
+    border-top: 1px solid var(--cmd-key-stroke);
+    padding: 12px;
   }
 
   .command-palette-hint {
