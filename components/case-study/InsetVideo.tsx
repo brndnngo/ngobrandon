@@ -1,14 +1,19 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
-import { insetItemStyle } from "@/lib/media-inset";
+import {
+  insetItemStyle,
+  type MediaPadding,
+} from "@/lib/media-inset";
 
 export function InsetVideo({
   src,
   poster,
+  padding,
 }: {
   src: string;
   poster?: string;
+  padding?: MediaPadding;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [ratio, setRatio] = useState<number | null>(null);
@@ -36,7 +41,11 @@ export function InsetVideo({
           ? "cs-media-inset-item cs-media-inset-sized"
           : "cs-media-inset-item"
       }
-      style={ratio ? insetItemStyle(ratio) : { visibility: "hidden" }}
+      style={
+        ratio
+          ? insetItemStyle(ratio, padding)
+          : { ...insetItemStyle(undefined, padding), visibility: "hidden" }
+      }
       src={src}
       poster={poster}
       muted

@@ -1,4 +1,10 @@
 import Image from "next/image";
+import { InsetVideo } from "@/components/case-study/InsetVideo";
+import {
+  insetItemStyle,
+  insetPaddingStyle,
+  type MediaPadding,
+} from "@/lib/media-inset";
 
 export type MediaGridRatio = "1:1" | "16:9";
 
@@ -7,6 +13,11 @@ export type MediaGridItem = {
   alt: string;
   videoSrc?: string;
   caption?: string;
+  fit?: "cover" | "inset";
+  padding?: MediaPadding;
+  stroke?: boolean;
+  width?: number;
+  height?: number;
 };
 
 function GridFrame({
@@ -17,14 +28,43 @@ function GridFrame({
   ratio: MediaGridRatio;
 }) {
   const aspect = ratio === "1:1" ? "aspect-square" : "aspect-video";
-  const frameClass = "h-full w-full object-cover";
+  const inset = item.fit === "inset";
+  const imageRatio =
+    item.width && item.height ? item.width / item.height : undefined;
 
   return (
     <figure>
-      <div className={`relative overflow-hidden bg-cs-media ${aspect}`}>
-        {item.videoSrc ? (
+      <div
+        className={[
+          inset
+            ? "cs-media-inset relative overflow-hidden bg-cs-media"
+            : `relative overflow-hidden bg-cs-media ${aspect}`,
+          item.stroke ? "cs-media-stroke" : "",
+        ].join(" ")}
+        style={inset ? insetPaddingStyle(item.padding) : undefined}
+      >
+        {inset ? (
+          item.videoSrc ? (
+            <InsetVideo
+              src={item.videoSrc}
+              poster={item.src || undefined}
+              padding={item.padding}
+            />
+          ) : (
+            <Image
+              src={item.src}
+              alt={item.alt}
+              width={item.width ?? 1600}
+              height={item.height ?? 900}
+              sizes="(min-width: 64rem) 30vw, 100vw"
+              unoptimized={item.src.includes(".svg")}
+              className="cs-media-inset-item cs-media-inset-sized"
+              style={insetItemStyle(imageRatio, item.padding)}
+            />
+          )
+        ) : item.videoSrc ? (
           <video
-            className={frameClass}
+            className="h-full w-full object-cover"
             src={item.videoSrc}
             poster={item.src || undefined}
             muted
@@ -39,7 +79,7 @@ function GridFrame({
             fill
             sizes="(min-width: 64rem) 30vw, 100vw"
             unoptimized={item.src.includes(".svg")}
-            className={frameClass}
+            className="object-cover"
           />
         )}
       </div>

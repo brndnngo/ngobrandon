@@ -8,6 +8,13 @@ export type CaseStudyMedia = {
   videoSrc?: string;
   caption?: string;
   fit?: "cover" | "inset";
+  stroke?: boolean;
+  padding?: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  };
   width?: number;
   height?: number;
 };

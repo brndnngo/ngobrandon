@@ -73,6 +73,7 @@
   --color-cs-body: #666666;
   --color-cs-faint: #888888;
   --color-cs-media: #f2f2f2;
+  --color-cs-stat: #fafafa;
 
   --text-cs-title: 2rem;
   --text-cs-title--line-height: 3rem;
@@ -164,7 +165,9 @@
   --cmd-key-fill: var(--color-kbd-fill);
   --cmd-key-stroke: var(--color-kbd-stroke);
   --color-watch-club: #ffffff;
-  --color-cs-media: #242424;
+  --color-cs-text: #f2f2f2;
+  --color-cs-body: var(--color-cs-faint);
+  --color-cs-stat: #191919;
   color-scheme: dark;
 }
 
@@ -228,9 +231,7 @@ html[data-theme-ready] {
     gap: var(--spacing-cs-stack);
   }
 
-  /* Hero well 860×432. Inner media is inset 47, 62, 45, 54. Percentage
-     padding is resolved against the container width, and the well is 16:9,
-     so each inset is that edge's pixels over 860. */
+  /* Padding is set inline from the media block, as pixels over the 860px frame. */
   .cs-media-frame {
     border-radius: 8px;
   }
@@ -240,21 +241,27 @@ html[data-theme-ready] {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding:
-      calc(62 / 860 * 100%)
-      calc(45 / 860 * 100%)
-      calc(54 / 860 * 100%)
-      calc(47 / 860 * 100%);
     border-radius: 8px;
+  }
+
+  /* Painted above the image. An inset shadow on the frame sits under a cover image. */
+  [data-theme="dark"] .cs-media-stroke::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(242, 242, 242, 0.05);
+    pointer-events: none;
   }
 
   .cs-media-inset-item {
     display: block;
     flex: 0 0 auto;
-    width: auto;
+    width: 100%;
     height: auto;
     max-width: 100%;
-    max-height: 100%;
+    max-height: none;
     border-radius: 8px;
   }
 
@@ -309,12 +316,13 @@ html[data-theme-ready] {
 
     .cs-nav-mark {
       position: absolute;
-      top: 0.375rem;
       left: -1rem;
       width: 0.5rem;
       height: 0.5rem;
       background: var(--color-cs-text);
       opacity: 0;
+      /* Half the square, then 2px up onto the letterforms. */
+      top: calc(50% - 0.25rem - 2px);
       transform: scale(0.85);
       transition:
         opacity 0.12s cubic-bezier(0.23, 1, 0.32, 1),
