@@ -30,8 +30,11 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
   return (
     <div className="work-index">
       <div className="work-index-split page-grid min-h-0 flex-1 pb-8">
-        <nav className="page-grid-left" aria-label="Selected work">
-          <ul className="flex flex-col gap-(--spacing-work-index)">
+        <nav className="work-index-nav page-grid-left" aria-labelledby="selected-works">
+          <p id="selected-works" className="work-index-label">
+            Selected works
+          </p>
+          <ul className="work-index-list">
             {projects.map((card) => {
               const isActive = card.slug === active.slug;
               const title = projectIndexTitle(card);
@@ -46,7 +49,7 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
                     }
                     onMouseOver={() => setActiveSlug(card.slug)}
                     onFocus={() => setActiveSlug(card.slug)}
-                    className={`grid grid-cols-[0.5rem_auto] items-center gap-x-3 font-display text-title outline-none ${
+                    className={`work-index-title font-display outline-none ${
                       isActive
                         ? "text-foreground"
                         : "text-muted hover:text-foreground focus-visible:text-foreground"
@@ -54,7 +57,7 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
                   >
                     <span
                       aria-hidden
-                      className="size-2"
+                      className="work-index-mark"
                       style={{
                         backgroundColor: isActive
                           ? projectColor(card)
@@ -100,7 +103,7 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
                   : projectIndexTitle(card)
               }
             >
-              <ProjectMedia card={card} />
+              <ProjectMedia card={card} hoverVideo playing />
               <ProjectCaption card={card} />
             </Link>
           </li>

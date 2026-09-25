@@ -57,6 +57,13 @@ export type CaseStudyStatBlock = {
   items: CaseStudyStat[];
 };
 
+export type CaseStudyContrastBlock = {
+  _type: "contrast";
+  _key: string;
+  before: { heading: string; label: string };
+  after: { heading: string; label: string };
+};
+
 export type CaseStudyQuoteBlock = {
   _type: "quote";
   _key: string;
@@ -69,6 +76,7 @@ export type CaseStudyBlock =
   | CaseStudyMediaBlock
   | CaseStudyMediaGridBlock
   | CaseStudyStatBlock
+  | CaseStudyContrastBlock
   | CaseStudyQuoteBlock;
 
 export type CaseStudyPage = {

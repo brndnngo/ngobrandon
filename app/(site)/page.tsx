@@ -23,7 +23,7 @@ function HomeBio() {
       </p>
 
       <div className="col-span-full">
-        <Bracket direction="down" />
+        <Bracket orientation="down" />
       </div>
     </div>
   );

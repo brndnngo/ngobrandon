@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { CaseStudyBody } from "@/components/portable-text/CaseStudyBody";
 import { CaseStudyFooter } from "@/components/case-study/CaseStudyFooter";
+import { Contrast } from "@/components/case-study/Contrast";
+import { Bracket } from "@/components/layout/Bracket";
 import { Media } from "@/components/case-study/Media";
 import { MediaGrid } from "@/components/case-study/MediaGrid";
 import { ProjectHeader } from "@/components/case-study/ProjectHeader";
@@ -54,6 +56,10 @@ function renderBlock(block: CaseStudyBlock) {
       );
     case "statRow":
       return <StatRow key={block._key} items={block.items} note={block.note} />;
+    case "contrast":
+      return (
+        <Contrast key={block._key} before={block.before} after={block.after} />
+      );
     case "quote":
       return null;
     default:
@@ -98,43 +104,54 @@ export function CaseStudyArticle({ page }: { page: CaseStudyPage }) {
   const toc = tableOfContents(page.blocks);
 
   return (
-    <article data-nav="light">
-      <div className="cs-page">
-        <SideNav items={toc} />
-        <div className="cs-main">
-          {page.hero?.src ? (
-            <div className="cs-full">
-              <Media
-                src={page.hero.src}
-                alt={page.hero.alt}
-                videoSrc={page.hero.videoSrc}
-                caption={page.hero.caption}
-                fit={page.hero.fit}
-                padding={page.hero.padding}
-                stroke={page.hero.stroke}
-                width={page.hero.width}
-                height={page.hero.height}
-                priority
-              />
-            </div>
-          ) : null}
-          <ProjectHeader
-            title={page.title}
-            description={page.description}
-            timeline={page.timeline}
-            role={page.role}
-            collaborators={page.collaborators}
-          />
-          <hr className="cs-full border-0 border-t border-(--color-border)" />
-          {renderBlocks(page.blocks)}
-          {page.legacyBody?.length ? (
-            <div className="cs-full">
-              <CaseStudyBody value={page.legacyBody} />
-            </div>
-          ) : null}
+    <>
+      <div className="pointer-events-none fixed inset-x-0 top-(--nav-height) z-40">
+        <div className="page-grid">
+          <div className="col-span-full">
+            <Bracket orientation="down" />
+          </div>
         </div>
       </div>
-      <CaseStudyFooter />
-    </article>
+      <article data-nav="light">
+        <div className="cs-page">
+          <SideNav items={toc} />
+          <div className="cs-main">
+            {page.hero?.src ? (
+              <div className="cs-full">
+                <Media
+                  src={page.hero.src}
+                  alt={page.hero.alt}
+                  videoSrc={page.hero.videoSrc}
+                  caption={page.hero.caption}
+                  fit={page.hero.fit}
+                  padding={page.hero.padding}
+                  stroke={page.hero.stroke}
+                  width={page.hero.width}
+                  height={page.hero.height}
+                  priority
+                />
+              </div>
+            ) : null}
+            <ProjectHeader
+              title={page.title}
+              description={page.description}
+              timeline={page.timeline}
+              role={page.role}
+              collaborators={page.collaborators}
+            />
+            <div className="cs-full">
+              <Bracket size="content" orientation="down" />
+            </div>
+            {renderBlocks(page.blocks)}
+            {page.legacyBody?.length ? (
+              <div className="cs-full">
+                <CaseStudyBody value={page.legacyBody} />
+              </div>
+            ) : null}
+          </div>
+        </div>
+        <CaseStudyFooter />
+      </article>
+    </>
   );
 }

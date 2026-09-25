@@ -107,13 +107,21 @@
   --page-rail-narrow: 10vw;
 
   --nav-height: 49px;
+  /* End ticks. Content is the case-study rule, 9/13 of the page tick. */
+  --bracket-tick-page: 13px;
+  --bracket-tick-content: 9px;
+  --bracket-radius-page: 3px;
+  --bracket-radius-content: calc(
+    var(--bracket-radius-page) * var(--bracket-tick-content) /
+      var(--bracket-tick-page)
+  );
   --nav-kbd-radius: 2px;
   --nav-kbd-width: 36px;
   --nav-kbd-height: 19px;
   --nav-kbd-padding-x: 8px;
   --nav-kbd-padding-top: 2px;
   --spacing-nav-kbd: 0.625rem;
-  --footer-row-height: calc(4.5rem + 13px);
+  --footer-row-height: calc(4.5rem + var(--bracket-tick-page));
 
   /* Command palette — Figma 102:640 */
   --cmd-width: 41.75rem;
@@ -293,7 +301,7 @@ html[data-theme-ready] {
     .cs-nav {
       grid-column: 1 / 4;
       position: sticky;
-      top: var(--nav-height);
+      top: calc(var(--nav-height) + var(--spacing-cs-stack));
       align-self: start;
       /* Share the site wordmark's left inset once the page is centered. */
       margin-left: calc(
@@ -1220,6 +1228,49 @@ html[data-theme-ready] {
       grid-template-rows: minmax(0, 1fr);
       min-height: 0;
       padding-bottom: 0;
+    }
+
+    .work-index-nav {
+      display: flex;
+      height: 100%;
+      min-height: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding-bottom: calc(4rem + 16px);
+      text-align: left;
+    }
+
+    .work-index-label {
+      margin: 0 0 1.75rem;
+      font-family: var(--font-sans);
+      font-size: var(--text-body);
+      line-height: var(--text-body--line-height);
+      letter-spacing: var(--text-body--letter-spacing);
+      color: var(--color-muted);
+    }
+
+    .work-index-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-work-index);
+    }
+
+    .work-index-title {
+      display: grid;
+      grid-template-columns: 0.5rem auto;
+      align-items: center;
+      column-gap: 2rem;
+      font-size: clamp(2.75rem, 2.2vw + 1.25rem, 3.5rem);
+      line-height: 1.12;
+      letter-spacing: -0.045em;
+    }
+
+    .work-index-mark {
+      width: 0.5rem;
+      height: 0.5rem;
+      justify-self: center;
     }
 
     .work-index-split .page-grid-right {

@@ -24,6 +24,7 @@ export const CASE_STUDIES_INDEX_QUERY = defineQuery(`
     category,
     shortDescription,
     previewImage,
+    "heroStill": hero.image,
     "preview": hero.video.asset->url,
     featured,
     orderRank

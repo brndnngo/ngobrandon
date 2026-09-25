@@ -1,4 +1,5 @@
 export { captionedImage } from "./captionedImage";
+export { contrast } from "./contrast";
 export { imageRow } from "./imageRow";
 export { media, mediaBlock } from "./mediaBlock";
 export { mediaGrid } from "./mediaGrid";

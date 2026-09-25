@@ -409,7 +409,7 @@ export type AllSanitySchemaTypes =
 
 // Source: lib/sanity/caseStudyQueries.ts
 // Variable: CASE_STUDIES_INDEX_QUERY
-// Query: *[_type == "caseStudy"] | order(orderRank asc) {    _id,    title,    "slug": slug.current,    accentColor,    year,    category,    shortDescription,    previewImage,    "preview": hero.video.asset->url,    featured,    orderRank  }
+// Query: *[_type == "caseStudy"] | order(orderRank asc) {    _id,    title,    "slug": slug.current,    accentColor,    year,    category,    shortDescription,    previewImage,    "heroStill": hero.image,    "preview": hero.video.asset->url,    featured,    orderRank  }
 export type CASE_STUDIES_INDEX_QUERY_RESULT = Array<{
   _id: string;
   title: string;
@@ -419,6 +419,14 @@ export type CASE_STUDIES_INDEX_QUERY_RESULT = Array<{
   category: string | null;
   shortDescription: string | null;
   previewImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  heroStill: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -636,6 +644,18 @@ export type CASE_STUDY_BY_SLUG_QUERY_RESULT = {
         _key: string;
         _type: "sectionEyebrow";
         text: string;
+      }
+    | {
+        _key: string;
+        _type: "contrast";
+        before: {
+          heading: string;
+          label: string;
+        } | null;
+        after: {
+          heading: string;
+          label: string;
+        } | null;
       }
     | {
         _key: string;

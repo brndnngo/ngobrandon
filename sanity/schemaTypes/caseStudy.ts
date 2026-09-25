@@ -190,6 +190,7 @@ export const caseStudy = defineType({
         defineArrayMember({ type: "mediaBlock" }),
         defineArrayMember({ type: "mediaGrid" }),
         defineArrayMember({ type: "statRow" }),
+        defineArrayMember({ type: "contrast" }),
         defineArrayMember({ type: "quote" }),
         defineArrayMember({ type: "block" }),
         defineArrayMember({ type: "sectionEyebrow" }),

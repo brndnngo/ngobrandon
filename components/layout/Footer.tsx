@@ -5,7 +5,7 @@ import { socialLinks } from "@/lib/site";
 export function Footer() {
   return (
     <footer className="page-column pb-8">
-      <Bracket direction="up" />
+      <Bracket orientation="up" />
       <div className="flex flex-wrap items-center justify-between gap-4 pt-6">
         <ul className="flex items-center gap-6">
             {socialLinks.map((link) => (

@@ -1,6 +1,7 @@
 import {
   captionedImage,
   caseStudySection,
+  contrast,
   imageRow,
   media,
   mediaBlock,
@@ -20,6 +21,7 @@ export const schemaTypes = [
   statRow,
   quote,
   captionedImage,
+  contrast,
   imageRow,
   sectionEyebrow,
 ];

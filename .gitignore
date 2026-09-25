@@ -39,6 +39,7 @@ yarn-error.log*
 
 # downloaded asset scratch
 .tmp-assets/
+scripts/figma-import/out/
 
 # typescript
 *.tsbuildinfo

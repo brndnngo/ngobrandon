@@ -15,6 +15,8 @@ export type ProjectCard = {
   order: number;
   /** Featured in the command palette when the search field is empty. */
   selected?: boolean;
+  /** Kept in content, omitted from the site and its project route. */
+  hidden?: boolean;
   /** Homepage list/caption name when it differs from the case-study title. */
   indexTitle?: string | null;
   discipline?: string | null;

@@ -21,7 +21,7 @@ export function FooterRow({ className = "" }: { className?: string }) {
       <div className="relative z-10">
         <div className="page-grid">
           <div className="col-span-full">
-            <Bracket direction="up" />
+            <Bracket orientation="up" />
           </div>
         </div>
 

@@ -42,7 +42,7 @@ export default function InfoPage() {
           </div>
 
           <div className="page-grid-inset mt-8">
-            <Bracket direction="down" />
+            <Bracket orientation="down" />
           </div>
         </div>
 

@@ -17,7 +17,8 @@ function section(input: {
   includeInToc?: boolean;
   paragraphs: string[];
 }): CaseStudyBlock {
-  const label = input.tocLabel || input.eyebrow || input.heading;
+  const label =
+    input.tocLabel || input.eyebrow || input.heading || input.paragraphs[0];
   return {
     _type: "section",
     _key: key(),
@@ -159,10 +160,11 @@ const studies: Record<string, CaseStudyPage> = {
         "On Scene Pack, 21, Sofia, Bulgaria",
       ),
       section({
-        heading:
-          "Fans shared the moments they loved and pulled each other back into the show, building the kind of community streaming had stopped making room for.",
+        heading: "",
         includeInToc: false,
-        paragraphs: [],
+        paragraphs: [
+          "Fans shared the moments they loved and pulled each other back into the show, building the kind of community streaming had stopped making room for.",
+        ],
       }),
     ],
   }),
@@ -259,6 +261,18 @@ const studies: Record<string, CaseStudyPage> = {
           "After rollout, we checked in with product teams and associates. The people building tools talked about predictability and less back-and-forth, and those who used them talked about not having to stop and figure out what to do next.",
         ],
       }),
+      quote(
+        "“Even when switching tools, it feels a lot easier to use than before. I don’t have to stop & figure out what to do next.”",
+        "Liz, SAN3 Quality associate",
+      ),
+      quote(
+        "“Alchemy helped revive tools that have been sunsetted after being operated independently for years. Now, it feels like an actual system is coming together.”",
+        "Brad, Product manager, AFT Inbound",
+      ),
+      quote(
+        "“This was the first time we had a system in AFT that actually reflected how our teams build tools, rather than forcing them into scattered UI patterns across different component libraries.”",
+        "Ruslan, Software development manager, AFT Outbound",
+      ),
     ],
   }),
   receive: page({
