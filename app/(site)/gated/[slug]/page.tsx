@@ -1,5 +1,6 @@
 import { CaseStudyArticle } from "@/components/case-study/CaseStudyArticle";
 import { PasswordGate } from "@/components/case-study/PasswordGate";
+import { FooterRow } from "@/components/layout/FooterRow";
 import { isGatedSlug } from "@/lib/gated";
 import { getCaseStudyPage } from "@/lib/sanity/fetch";
 import { hasGateAccess } from "@/lib/session";
@@ -43,11 +44,14 @@ export default async function GatedProjectPage({
   const unlocked = await hasGateAccess();
   if (!unlocked) {
     return (
-      <div className="px-cs-grid">
-        <PasswordGate
-          next={`/project/${slug}`}
-          error={query.error === "1" || query.error?.[0] === "1"}
-        />
+      <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 items-center justify-center px-6 py-16">
+          <PasswordGate
+            next={`/project/${slug}`}
+            error={query.error === "1" || query.error?.[0] === "1"}
+          />
+        </div>
+        <FooterRow />
       </div>
     );
   }
