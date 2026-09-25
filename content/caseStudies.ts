@@ -294,7 +294,8 @@ const studies: Record<string, CaseStudyPage> = {
     blocks: [
       section({
         eyebrow: "Context",
-        heading: "Before a package reaches your door, someone has to receive it.",
+        heading:
+          "Before a package reaches your door,\nsomeone has to receive it.",
         paragraphs: [
           "Every item that enters an Amazon fulfillment center starts on a pallet at the dock. Before it can be stored, picked, or shipped, an associate has to scan it, identify it, and send it to the right place.",
         ],
@@ -309,7 +310,7 @@ const studies: Record<string, CaseStudyPage> = {
       section({
         eyebrow: "Key decisions",
         heading:
-          "Every tool was answering the same question: What is this pallet, and where should it go?",
+          "Every tool was answering the same question:\nWhat is this pallet, and where should it go?",
         paragraphs: [
           "Some pallets arrive with complete shipment data, and others arrive with partial or missing information. The legacy tools handled each scenario with a separate tool. Instead of improving them one by one, we consolidated all of them into one adaptive flow. It resolves automatically when the data is there and guides associates step by step when it isn't.",
         ],

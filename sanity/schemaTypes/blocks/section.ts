@@ -14,7 +14,8 @@ export const caseStudySection = defineType({
     }),
     defineField({
       name: "heading",
-      type: "string",
+      type: "text",
+      rows: 3,
       validation: (rule) =>
         rule.custom((heading, context) => {
           const body = (context.parent as { body?: unknown[] } | undefined)?.body;

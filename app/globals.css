@@ -233,6 +233,13 @@ html[data-theme-ready] {
     margin-inline: auto;
     padding-inline: var(--spacing-cs-grid);
     padding-top: var(--spacing-cs-stack);
+    padding-bottom: 40px;
+  }
+
+  @media (min-width: 64rem) {
+    .cs-page {
+      padding-bottom: 80px;
+    }
   }
 
   .cs-main {
@@ -410,6 +417,23 @@ html[data-theme-ready] {
     .cs-meta-team {
       grid-column: 5 / 8;
     }
+
+    /* The nav grid has no column gap and stays full-bleed. The case study
+       grid has 24px gutters and centers at 1440, so column 7 drifts from
+       Work. Pull Work onto the description and timeline. */
+    html:has(.cs-page) .site-nav {
+      container-type: inline-size;
+    }
+
+    html:has(.cs-page) .site-nav nav {
+      margin-left: calc(
+        (100cqi - min(100cqi, var(--container-cs-page))) / 2 +
+          6 * (min(100cqi, var(--container-cs-page)) - 17 * var(--spacing-cs-grid)) /
+          16 +
+          6 * var(--spacing-cs-grid) -
+          6 * (100cqi - 2 * var(--spacing-cs-grid)) / 16
+      );
+    }
   }
 
   /* Break out of .page-column so the case-study hero can go full viewport. */
@@ -578,10 +602,6 @@ html[data-theme-ready] {
     position: relative;
     z-index: 2;
     flex: none;
-  }
-
-  .home-bio .page-grid-intro {
-    background: var(--color-background);
   }
 
   .work-index {
@@ -1262,7 +1282,7 @@ html[data-theme-ready] {
       grid-template-columns: 0.5rem auto;
       align-items: center;
       column-gap: 2rem;
-      font-size: clamp(2.75rem, 2.2vw + 1.25rem, 3.5rem);
+      font-size: clamp(2.27rem, 1.815vw + 1.031rem, 2.8875rem);
       line-height: 1.12;
       letter-spacing: -0.045em;
     }
