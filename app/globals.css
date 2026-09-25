@@ -658,6 +658,7 @@ html[data-theme-ready] {
     outline: none;
     pointer-events: auto;
     touch-action: pan-y;
+    cursor: inherit;
   }
 
   .photo-strip-frame.is-active {
@@ -683,10 +684,6 @@ html[data-theme-ready] {
     border-radius: calc(var(--photo-radius) / var(--photo-scale));
     transform: scale(var(--photo-scale));
     transition-duration: var(--photo-in);
-  }
-
-  .photo-strip-frame:focus-visible .photo-strip-visual {
-    box-shadow: 0 0 0 2px var(--color-foreground);
   }
 
   .photo-strip-caption-slot {
@@ -994,10 +991,6 @@ html[data-theme-ready] {
       width: 100%;
       text-align: center;
       font-size: clamp(2.5rem, calc(100cqi / 5.231), 16rem);
-    }
-
-    .home-photo-more {
-      display: none;
     }
 
     .home-photo-credit {

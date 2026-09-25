@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { HomeScroll } from "@/components/home/HomeScroll";
 import { PhotoStrip } from "@/components/home/PhotoStrip";
 import { WorkIndex } from "@/components/home/WorkIndex";
 import { Bracket } from "@/components/layout/Bracket";
 import { Clock } from "@/components/layout/Clock";
 import { FooterRow } from "@/components/layout/FooterRow";
-import { filmFrames } from "@/content/film";
 import { siteConfig } from "@/lib/site";
 import { getProjectCards } from "@/lib/sanity/fetch";
 
@@ -50,7 +48,7 @@ export default async function HomePage() {
         <section data-nav="light" className="home-snap-section">
           <div className="home-snap-section-inner home-snap-section-inner--after-footer">
             <div className="home-photo-cluster">
-              <PhotoStrip photos={filmFrames} />
+              <PhotoStrip />
               <div className="page-grid">
                 <div className="page-grid-bio home-wordmark-slot">
                   <p className="home-wordmark" aria-hidden>
@@ -61,12 +59,6 @@ export default async function HomePage() {
             </div>
 
             <div className="page-grid home-photo-bar">
-              <Link
-                href="/film"
-                className="page-grid-left home-photo-more text-body text-muted hover:opacity-60"
-              >
-                More photos here
-              </Link>
               <p className="home-photo-credit font-medium text-eyebrow text-muted">
                 Built with Next.js + v0 © 2026
               </p>

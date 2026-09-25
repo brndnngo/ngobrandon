@@ -37,6 +37,26 @@ const nextConfig: NextConfig = {
         destination: "/project/receive",
         permanent: true,
       },
+      {
+        source: "/photo",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/photo/:path*",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/film",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/film/:path*",
+        destination: "/",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
@@ -44,7 +64,6 @@ const nextConfig: NextConfig = {
       { source: "/project/wc", destination: "/gated/wc" },
       { source: "/project/alchemy", destination: "/gated/alchemy" },
       { source: "/project/receive", destination: "/gated/receive" },
-      { source: "/photo", destination: "/film" },
     ];
   },
 };

@@ -1,18 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import {
   useCallback,
   useEffect,
-  useId,
   useRef,
   useState,
-  type FocusEvent,
-  type MouseEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import type { FilmFrame } from "@/content/film";
+import { photos } from "@/components/home/photos";
 
 const LOOP_SECONDS = 50;
 const DRAG_GAIN = 1;
@@ -86,8 +82,7 @@ function computeBump(rest: DOMRect, scale: number, margin: number, view: DOMRect
   return max - next.right;
 }
 
-export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
-  const captionId = useId();
+export function PhotoStrip() {
   const rootRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -107,7 +102,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
   const visibleRef = useRef(true);
   const reduceRef = useRef(false);
   const activeRef = useRef<number | null>(null);
-  const frameRef = useRef<HTMLAnchorElement | null>(null);
+  const frameRef = useRef<HTMLElement | null>(null);
   const transitioningRef = useRef(false);
   const draggingRef = useRef(false);
   const didDragRef = useRef(false);
@@ -174,7 +169,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
   }, [clearIdle, lockFor, resumeTrack]);
 
   const activate = useCallback(
-    (index: number, frame: HTMLAnchorElement) => {
+    (index: number, frame: HTMLElement) => {
       if (draggingRef.current || didDragRef.current) return;
       if (activeRef.current === index) return;
       const root = rootRef.current;
@@ -357,7 +352,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
   const onStripPointerOver = (event: ReactPointerEvent<HTMLDivElement>) => {
     pointerRef.current = { x: event.clientX, y: event.clientY };
     if (!isDesktop() || isReduce() || draggingRef.current) return;
-    const frame = (event.target as Element).closest<HTMLAnchorElement>(
+    const frame = (event.target as Element).closest<HTMLElement>(
       "[data-photo-index]",
     );
     if (!frame) return;
@@ -377,7 +372,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     if (!isDesktop() || isReduce() || transitioningRef.current) return;
     if (activeRef.current === null) return;
     if (pointInActive(event.clientX, event.clientY)) return;
-    const frame = (event.target as Element).closest<HTMLAnchorElement>(
+    const frame = (event.target as Element).closest<HTMLElement>(
       "[data-photo-index]",
     );
     if (frame) {
@@ -464,28 +459,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
     }, 0);
   };
 
-  const onFrameClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (didDragRef.current) {
-      event.preventDefault();
-    }
-  };
-
-  const onFrameFocus = (
-    event: FocusEvent<HTMLAnchorElement>,
-    index: number,
-  ) => {
-    if (draggingRef.current) return;
-    if (!isDesktop() || isReduce()) return;
-    if (transitioningRef.current && activeRef.current !== index) return;
-    activate(index, event.currentTarget);
-  };
-
-  const onFrameBlur = (event: FocusEvent<HTMLAnchorElement>) => {
-    const next = event.relatedTarget;
-    if (next instanceof HTMLElement && rootRef.current?.contains(next)) return;
-    if (isDesktop() || isReduce()) deactivate();
-  };
-
   const copies = looping ? 2 : 1;
   const activePhoto =
     active === null ? null : photos[((active % count) + count) % count];
@@ -524,18 +497,10 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
                     const index = copy * count + photoIndex;
                     const isActive = active === index;
                     return (
-                      <Link
+                      <div
                         key={`${copy}-${photo.src}`}
-                        href="/photo"
                         data-photo-index={index}
-                        aria-label={`${photo.title}, ${photo.location}, ${photo.year}`}
-                        aria-describedby={isActive ? captionId : undefined}
                         className={`photo-strip-frame${isActive ? " is-active" : ""}`}
-                        tabIndex={copy > 0 ? -1 : 0}
-                        draggable={false}
-                        onFocus={(event) => onFrameFocus(event, index)}
-                        onBlur={onFrameBlur}
-                        onClick={onFrameClick}
                       >
                         <span className="photo-strip-visual">
                           <Image
@@ -549,7 +514,7 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
                             className="h-full w-full object-cover"
                           />
                         </span>
-                      </Link>
+                      </div>
                     );
                   })}
                 </div>
@@ -561,7 +526,6 @@ export function PhotoStrip({ photos }: { photos: FilmFrame[] }) {
 
       <div className="photo-strip-caption-slot" aria-hidden={!captionVisible}>
         <div
-          id={captionId}
           className="photo-strip-caption"
           style={{
             left: caption?.left ?? 0,

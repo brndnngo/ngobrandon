@@ -1,4 +1,4 @@
-export type FilmFrame = {
+export type Photo = {
   src: string;
   alt: string;
   title: string;
@@ -6,7 +6,7 @@ export type FilmFrame = {
   year: string;
 };
 
-export const filmFrames: FilmFrame[] = [
+export const photos: Photo[] = [
   {
     src: "/photos/biblioteca-vasconcelos.jpg",
     alt: "Looking down the stacks at Biblioteca Vasconcelos",

@@ -14,7 +14,7 @@ import { ScrollTrigger, gsap, useGSAP } from "@/components/motion/gsap";
  * itself comes from a CSS variable, so the transition is pure CSS.
  *
  * No-JS default is `data-nav-theme="light"` on `<html>`, matching the majority
- * of pages. Dark pages (film) set the attribute on their root section too.
+ * of pages. Dark pages set the attribute on their root section too.
  */
 const NAV_LINE = 20;
 
