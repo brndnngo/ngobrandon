@@ -26,7 +26,7 @@ export function NavScrim() {
     <>
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-x-0 top-0 z-[998] h-(--nav-height) lg:hidden"
+        className="nav-scrim-mobile pointer-events-none fixed inset-x-0 top-0 z-[998] h-(--nav-height) lg:hidden"
         style={frost}
       />
       <div
