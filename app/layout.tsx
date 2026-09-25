@@ -9,11 +9,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — ${siteConfig.role}`,
-    template: `%s — ${siteConfig.name}`,
+    default: `${siteConfig.name} · ${siteConfig.role}`,
+    template: `%s · ${siteConfig.name}`,
   },
   description:
-    "Product designer in Los Angeles working across digital experiences, brand identity, and design systems.",
+    "Senior product designer in Los Angeles focused on design systems, interaction patterns, and product strategy.",
   alternates: {
     canonical: "/",
   },
