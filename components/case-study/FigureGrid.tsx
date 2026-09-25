@@ -10,7 +10,7 @@ export function FigureGrid({
   return (
     <div
       data-reveal
-      className="my-10 grid gap-4"
+      className="my-10 grid gap-10"
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
     >
       {figures.map((figure) => (

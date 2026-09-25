@@ -19,6 +19,8 @@ export function SiteShell({
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isInfo = pathname === "/info";
+  const isCaseStudy =
+    pathname.startsWith("/project/") || pathname.startsWith("/gated/");
 
   return (
     <ThemeProvider>
@@ -28,7 +30,7 @@ export function SiteShell({
       <NavThemeController />
       {isHome ? (
         children
-      ) : isInfo ? (
+      ) : isInfo || isCaseStudy ? (
         <main className="flex flex-1 flex-col pt-(--nav-height)">
           {children}
         </main>

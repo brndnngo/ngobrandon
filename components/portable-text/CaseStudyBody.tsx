@@ -6,6 +6,7 @@ import {
 import type { SanityImageSource } from "@sanity/image-url";
 import { Figure } from "@/components/case-study/Figure";
 import { FigureGrid } from "@/components/case-study/FigureGrid";
+import { ImageRow } from "@/components/case-study/ImageRow";
 import { Panel } from "@/components/case-study/Panel";
 import { Stats } from "@/components/case-study/Stats";
 import { Steps } from "@/components/case-study/Steps";
@@ -21,32 +22,33 @@ function imageSrc(source: SanityImageSource | string | undefined | null) {
 const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p data-reveal className="mx-auto max-w-prose py-3 text-body">
+      <p data-reveal className="mt-2 max-w-[74.8125rem] text-body">
         {children}
       </p>
     ),
     h2: ({ children }) => (
       <h2
         data-reveal
-        className="mx-auto mt-16 mb-6 max-w-prose font-display text-heading"
+        className="mt-10 font-sans text-cs-heading [.case-study-eyebrow+&]:mt-0"
       >
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 data-reveal className="mx-auto mt-10 mb-4 max-w-prose text-heading">
+      <h3
+        data-reveal
+        className="mt-5 mb-1 font-sans text-cs-subhead"
+      >
         {children}
       </h3>
     ),
     eyebrow: ({ children }) => (
-      <p className="mx-auto max-w-prose text-eyebrow text-muted uppercase">
-        {children}
-      </p>
+      <p className="mb-2 text-[12px] leading-4 text-[#777]">{children}</p>
     ),
     blockquote: ({ children }) => (
       <blockquote
         data-reveal
-        className="mx-auto my-10 max-w-prose border-l border-(--color-border) pl-6 text-body"
+        className="my-10 max-w-[74.8125rem] border-l border-(--color-border) pl-6 text-body"
       >
         {children}
       </blockquote>
@@ -54,12 +56,12 @@ const components: PortableTextComponents = {
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="mx-auto max-w-prose list-disc py-3 pl-5 text-body">
+      <ul className="max-w-[74.8125rem] list-disc py-3 pl-5 text-body">
         {children}
       </ul>
     ),
     number: ({ children }) => (
-      <ol className="mx-auto max-w-prose list-decimal py-3 pl-5 text-body">
+      <ol className="max-w-[74.8125rem] list-decimal py-3 pl-5 text-body">
         {children}
       </ol>
     ),
@@ -77,6 +79,42 @@ const components: PortableTextComponents = {
     ),
   },
   types: {
+    sectionEyebrow: ({ value }) =>
+      value?.text ? (
+        <p className="case-study-eyebrow mt-20 mb-2 text-[12px] leading-4 text-[#777]">
+          {value.text}
+        </p>
+      ) : null,
+    captionedImage: ({ value }) => {
+      const src = imageSrc(value.image);
+      if (!src) return null;
+      return (
+        <Figure
+          src={src}
+          alt={value.alt ?? ""}
+          caption={value.caption}
+          overlay
+        />
+      );
+    },
+    imageRow: ({ value }) => (
+      <ImageRow
+        figures={(value.images ?? [])
+          .map(
+            (figure: {
+              image?: SanityImageSource;
+              alt?: string;
+              caption?: string;
+              _key?: string;
+            }) => ({
+              src: imageSrc(figure.image),
+              alt: figure.alt ?? "",
+              caption: figure.caption,
+            }),
+          )
+          .filter((figure: { src: string }) => figure.src)}
+      />
+    ),
     figure: ({ value }) => {
       const src = imageSrc(value.image ?? value.src);
       if (!src) return null;

@@ -36,6 +36,8 @@ export type ProjectHero = {
   collaborators: Collaborator[];
   gated: boolean;
   thumbnail?: SanityImageSource | string | null;
+  heroImage?: SanityImageSource | string | null;
+  heroAlt?: string;
 };
 
 export type ProjectBody = unknown[];

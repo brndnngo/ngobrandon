@@ -65,6 +65,41 @@
   --spacing-footer-card-x: 1rem;
   --spacing-footer-card-y: 0.75rem;
   --container-page: 90rem;
+  --container-cs-page: 90rem;
+
+  /* Case study. Utilities: text-cs-text, text-cs-body, text-cs-faint, bg-cs-media.
+     Site --color-muted stays #6f6f6f; body copy uses text-cs-body. */
+  --color-cs-text: #111111;
+  --color-cs-body: #666666;
+  --color-cs-faint: #888888;
+  --color-cs-media: #f2f2f2;
+
+  --text-cs-title: 2rem;
+  --text-cs-title--line-height: 3rem;
+  --text-cs-title--letter-spacing: -0.08rem;
+  --text-cs-title--font-weight: 400;
+
+  --text-cs-heading: 1.5rem;
+  --text-cs-heading--line-height: 2rem;
+  --text-cs-heading--letter-spacing: -0.045rem;
+  --text-cs-heading--font-weight: 400;
+
+  --text-cs-subhead: 1.25rem;
+  --text-cs-subhead--line-height: 1.75rem;
+  --text-cs-subhead--letter-spacing: -0.0375rem;
+  --text-cs-subhead--font-weight: 400;
+
+  --text-cs-caption: 0.75rem;
+  --text-cs-caption--line-height: 1.25rem;
+  --text-cs-caption--letter-spacing: -0.0225rem;
+  --text-cs-caption--font-weight: 400;
+
+  --spacing-cs-grid: 1.5rem;
+  --spacing-cs-nav-indent: 1.5rem;
+  --spacing-cs-nav-gap: 0.5rem;
+  --spacing-cs-stack: 2.5rem;
+  --spacing-cs-tight: 1rem;
+
   --page-rail: 20vw;
   --page-rail-narrow: 10vw;
 
@@ -129,6 +164,7 @@
   --cmd-key-fill: var(--color-kbd-fill);
   --cmd-key-stroke: var(--color-kbd-stroke);
   --color-watch-club: #ffffff;
+  --color-cs-media: #242424;
   color-scheme: dark;
 }
 
@@ -169,6 +205,203 @@ html[data-theme-ready] {
     .page-column {
       margin-left: var(--spacing-page-sm);
       margin-right: var(--spacing-page-sm);
+    }
+  }
+
+  /* 16 stretch columns, 24px margin and gutter. Fluid until 1440, then centered. */
+  article:has(> .cs-page) {
+    container-type: inline-size;
+  }
+
+  .cs-page {
+    box-sizing: border-box;
+    width: min(100%, var(--container-cs-page));
+    margin-inline: auto;
+    padding-inline: var(--spacing-cs-grid);
+    padding-top: var(--spacing-cs-stack);
+  }
+
+  .cs-main {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--spacing-cs-stack);
+  }
+
+  /* Hero well 860×432. Inner media is inset 47, 62, 45, 54. Percentage
+     padding is resolved against the container width, and the well is 16:9,
+     so each inset is that edge's pixels over 860. */
+  .cs-media-frame {
+    border-radius: 8px;
+  }
+
+  .cs-media-inset {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:
+      calc(62 / 860 * 100%)
+      calc(45 / 860 * 100%)
+      calc(54 / 860 * 100%)
+      calc(47 / 860 * 100%);
+    border-radius: 8px;
+  }
+
+  .cs-media-inset-item {
+    display: block;
+    flex: 0 0 auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+  }
+
+  .cs-media-inset-sized {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .cs-caption {
+    margin-top: var(--spacing-cs-tight);
+    color: var(--color-cs-faint);
+    font-size: var(--text-cs-caption);
+    line-height: var(--text-cs-caption--line-height);
+    letter-spacing: var(--text-cs-caption--letter-spacing);
+    text-align: center;
+  }
+
+  @media (min-width: 64rem) {
+    .cs-page {
+      display: grid;
+      grid-template-columns: repeat(16, minmax(0, 1fr));
+      column-gap: var(--spacing-cs-grid);
+      align-items: start;
+    }
+
+    .cs-nav {
+      grid-column: 1 / 4;
+      position: sticky;
+      top: var(--nav-height);
+      align-self: start;
+      /* Share the site wordmark's left inset once the page is centered. */
+      margin-left: calc(
+        -1 * max(0px, (100cqi - min(100cqi, var(--container-cs-page))) / 2)
+      );
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .cs-nav.is-away {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .cs-nav-link {
+      color: var(--color-cs-faint);
+      transition: color 0.2s cubic-bezier(0.33, 0.85, 0.4, 1);
+    }
+
+    .cs-nav-link:hover,
+    .cs-nav-link.is-lit {
+      color: var(--color-cs-text);
+    }
+
+    .cs-nav-mark {
+      position: absolute;
+      top: 0.375rem;
+      left: -1rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: var(--color-cs-text);
+      opacity: 0;
+      transform: scale(0.85);
+      transition:
+        opacity 0.12s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.12s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .cs-nav-link.is-current .cs-nav-mark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cs-nav,
+      .cs-nav-link,
+      .cs-nav-mark {
+        transition: none;
+      }
+    }
+
+    .cs-main {
+      grid-column: 4 / 14;
+      display: grid;
+      grid-template-columns: subgrid;
+      column-gap: var(--spacing-cs-grid);
+      row-gap: var(--spacing-cs-stack);
+    }
+
+    .cs-span {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: subgrid;
+      column-gap: var(--spacing-cs-grid);
+    }
+
+    .cs-quotes {
+      row-gap: 2rem;
+    }
+
+    .cs-full {
+      grid-column: 1 / -1;
+    }
+
+    .cs-measure {
+      grid-column: 1 / 8;
+    }
+
+    .cs-title {
+      grid-column: 1 / 4;
+      grid-row: 1;
+    }
+
+    .cs-aside {
+      grid-column: 4 / 11;
+      grid-row: 1;
+    }
+
+    .cs-meta {
+      grid-column: 4 / 11;
+      grid-row: 2;
+      display: grid;
+      grid-template-columns: subgrid;
+      column-gap: var(--spacing-cs-grid);
+      margin-top: var(--spacing-cs-stack);
+    }
+
+    .cs-meta-timeline {
+      grid-column: 1 / 3;
+    }
+
+    .cs-meta-role {
+      grid-column: 3 / 5;
+    }
+
+    .cs-meta-team {
+      grid-column: 5 / 8;
+    }
+  }
+
+  /* Break out of .page-column so the case-study hero can go full viewport. */
+  .case-study-bleed {
+    width: 100vw;
+    margin-left: calc(-1 * var(--spacing-page));
+  }
+
+  @media (max-width: 479px) {
+    .case-study-bleed {
+      margin-left: calc(-1 * var(--spacing-page-sm));
     }
   }
 

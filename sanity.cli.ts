@@ -5,4 +5,11 @@ export default defineCliConfig({
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   },
+  typegen: {
+    enabled: true,
+    path: "./lib/sanity/**/*.{ts,tsx}",
+    schema: "schema.json",
+    generates: "./sanity.types.ts",
+    overloadClientMethods: false,
+  },
 });
