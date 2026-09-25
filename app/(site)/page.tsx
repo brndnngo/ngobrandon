@@ -60,7 +60,7 @@ export default async function HomePage() {
 
             <div className="page-grid home-photo-bar">
               <p className="home-photo-credit font-medium text-eyebrow text-muted">
-                Built with Next.js + v0 © 2026
+                Built with Next.js + v0 <span className="ml-1.5">© 2026</span>
               </p>
               <div className="page-grid-clock home-photo-clock">
                 <Clock variant="bar" />

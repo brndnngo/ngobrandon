@@ -18,7 +18,6 @@ export const navLinks = [
 
 export const socialLinks = [
   { href: "https://www.linkedin.com/in/brandonngo72/", label: "LinkedIn" },
-  { href: "https://x.com/brandon__ngo", label: "X" },
   { href: "https://medium.com/@brandonngo", label: "Medium" },
   { href: "https://github.com/brndnngo", label: "GitHub" },
 ] as const;

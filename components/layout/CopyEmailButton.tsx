@@ -5,22 +5,22 @@ import { siteConfig } from "@/lib/site";
 
 function CheckMark() {
   return (
-    <svg
-      aria-hidden
-      viewBox="0 0 16 16"
-      width="14"
-      height="14"
-      className="ml-1 inline-block align-[-2px] text-foreground"
-    >
-      <path
-        d="M3 8.5 6.5 12 13 4.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+    <span className="relative ml-1 inline-block w-[0.8em] align-baseline text-foreground">
+      <svg
+        aria-hidden
+        viewBox="0 0 16 16"
+        className="absolute bottom-[calc(0.08em-2px)] left-0 h-[0.85em] w-[0.85em]"
+      >
+        <path
+          d="M3.25 8.35 6.45 11.55 12.75 4.6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.25"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
   );
 }
 
