@@ -1,5 +1,8 @@
 import { unlockCaseStudy } from "@/app/actions/unlock";
 
+const fieldClass =
+  "box-border h-[4.5rem] w-full rounded-[16px] border border-(--color-border) bg-transparent px-6 text-center font-sans text-[1.0625rem] leading-none tracking-[-0.02em] text-foreground";
+
 export function PasswordGate({
   next,
   error,
@@ -8,34 +11,38 @@ export function PasswordGate({
   error?: boolean;
 }) {
   return (
-    <section data-nav="light" className="mx-auto max-w-md py-32">
-      <h1 className="font-display text-heading">This work is private.</h1>
-      <p className="mt-4 text-body text-muted">
-        Enter the password to read the case study.
-      </p>
+    <section data-nav="light" className="w-full max-w-[40rem]">
+      <h1 className="text-center font-sans text-[2rem] leading-none tracking-[-0.03em] text-foreground">
+        This is a locked case study.
+      </h1>
 
-      <form action={unlockCaseStudy} className="mt-10 grid gap-4">
+      <form action={unlockCaseStudy} className="mt-8 grid gap-5">
         <input type="hidden" name="next" value={next} />
-        <label className="grid gap-2 text-body">
-          <span className="text-eyebrow text-muted uppercase">Password</span>
-          <input
-            type="password"
-            name="password"
-            required
-            autoComplete="current-password"
-            className="border border-(--color-border) bg-transparent px-3 py-2 text-body outline-none focus:border-(--color-foreground)"
-          />
+        <label className="sr-only" htmlFor="case-study-password">
+          Password
         </label>
+        <input
+          id="case-study-password"
+          type="password"
+          name="password"
+          required
+          autoComplete="current-password"
+          placeholder="Message me for the password"
+          aria-invalid={error || undefined}
+          aria-describedby={error ? "case-study-password-error" : undefined}
+          className={`${fieldClass} placeholder:text-[#c4c4c4] dark:placeholder:text-[#6a6a6a]`}
+        />
         {error ? (
-          <p role="alert" className="text-body text-muted">
+          <p
+            id="case-study-password-error"
+            role="alert"
+            className="-my-1 text-center text-body text-muted"
+          >
             That password didn’t match. Try again.
           </p>
         ) : null}
-        <button
-          type="submit"
-          className="justify-self-start text-body underline underline-offset-4"
-        >
-          Continue
+        <button type="submit" className={`${fieldClass} cursor-pointer`}>
+          Enter case study
         </button>
       </form>
     </section>
