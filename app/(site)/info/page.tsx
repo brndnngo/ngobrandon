@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { ExperienceGroup } from "@/components/info/ExperienceGroup";
 import { Bracket } from "@/components/layout/Bracket";
-import { FooterRow } from "@/components/layout/FooterRow";
-import { WordmarkFooter } from "@/components/layout/WordmarkFooter";
+import { PageEnd } from "@/components/layout/PageEnd";
 import { Em } from "@/components/text/Em";
 import { experienceGroups } from "@/content/info";
 
@@ -60,10 +59,7 @@ export default function InfoPage() {
         </div>
       </section>
 
-      <div className="info-end mt-auto">
-        <FooterRow className="info-footer" />
-        <WordmarkFooter />
-      </div>
+      <PageEnd />
     </>
   );
 }

@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { CaseStudyBody } from "@/components/portable-text/CaseStudyBody";
-import { CaseStudyFooter } from "@/components/case-study/CaseStudyFooter";
 import { Contrast } from "@/components/case-study/Contrast";
 import { Bracket } from "@/components/layout/Bracket";
+import { PageEnd } from "@/components/layout/PageEnd";
 import { Media } from "@/components/case-study/Media";
 import { MediaGrid } from "@/components/case-study/MediaGrid";
 import { ProjectHeader } from "@/components/case-study/ProjectHeader";
@@ -105,53 +105,46 @@ export function CaseStudyArticle({ page }: { page: CaseStudyPage }) {
 
   return (
     <>
-      <div className="pointer-events-none fixed inset-x-0 top-(--nav-height) z-40">
-        <div className="page-grid">
-          <div className="col-span-full">
-            <Bracket orientation="down" />
-          </div>
-        </div>
-      </div>
       <article data-nav="light">
         <div className="cs-page">
-          <SideNav items={toc} />
-          <div className="cs-main">
-            {page.hero?.src ? (
-              <div className="cs-full">
-                <Media
-                  src={page.hero.src}
-                  alt={page.hero.alt}
-                  videoSrc={page.hero.videoSrc}
-                  caption={page.hero.caption}
-                  fit={page.hero.fit}
-                  padding={page.hero.padding}
-                  stroke={page.hero.stroke}
-                  width={page.hero.width}
-                  height={page.hero.height}
-                  priority
-                />
-              </div>
-            ) : null}
-            <ProjectHeader
-              title={page.title}
-              description={page.description}
-              timeline={page.timeline}
-              role={page.role}
-              collaborators={page.collaborators}
-            />
+        <SideNav items={toc} />
+        <div className="cs-main">
+          {page.hero?.src ? (
             <div className="cs-full">
-              <Bracket size="content" orientation="down" />
+              <Media
+                src={page.hero.src}
+                alt={page.hero.alt}
+                videoSrc={page.hero.videoSrc}
+                caption={page.hero.caption}
+                fit={page.hero.fit}
+                padding={page.hero.padding}
+                stroke={page.hero.stroke}
+                width={page.hero.width}
+                height={page.hero.height}
+                priority
+              />
             </div>
-            {renderBlocks(page.blocks)}
-            {page.legacyBody?.length ? (
-              <div className="cs-full">
-                <CaseStudyBody value={page.legacyBody} />
-              </div>
-            ) : null}
+          ) : null}
+          <ProjectHeader
+            title={page.title}
+            description={page.description}
+            timeline={page.timeline}
+            role={page.role}
+            collaborators={page.collaborators}
+          />
+          <div className="cs-full">
+            <Bracket size="content" orientation="down" />
           </div>
+          {renderBlocks(page.blocks)}
+          {page.legacyBody?.length ? (
+            <div className="cs-full">
+              <CaseStudyBody value={page.legacyBody} />
+            </div>
+          ) : null}
         </div>
-        <CaseStudyFooter />
+      </div>
       </article>
+      <PageEnd />
     </>
   );
 }

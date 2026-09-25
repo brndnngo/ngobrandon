@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Nav } from "@/components/layout/Nav";
+import { NavBracket } from "@/components/layout/NavBracket";
 import { NavScrim } from "@/components/layout/NavScrim";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { NavThemeController } from "@/components/motion/NavThemeController";
@@ -26,6 +27,7 @@ export function SiteShell({
     <ThemeProvider>
       <NavScrim />
       <Nav projects={projects} />
+      {isInfo || isCaseStudy ? <NavBracket /> : null}
       <RevealController />
       <NavThemeController />
       {isHome ? (
