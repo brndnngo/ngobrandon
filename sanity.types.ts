@@ -15,6 +15,13 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type Padding = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
@@ -131,6 +138,8 @@ export type MediaBlock = {
   video?: Video;
   caption?: string;
   fit?: "cover" | "inset";
+  stroke?: boolean;
+  padding?: Padding;
 };
 
 export type Media = {
@@ -140,6 +149,8 @@ export type Media = {
   video?: Video;
   caption?: string;
   fit?: "cover" | "inset";
+  stroke?: boolean;
+  padding?: Padding;
 };
 
 export type CaseStudy = {
@@ -369,6 +380,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | Padding
   | SanityImageAssetReference
   | Image1
   | SanityFileAssetReference
@@ -421,7 +433,7 @@ export type CASE_STUDIES_INDEX_QUERY_RESULT = Array<{
 
 // Source: lib/sanity/caseStudyQueries.ts
 // Variable: CASE_STUDY_BY_SLUG_QUERY
-// Query: *[_type == "caseStudy" && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    description,    timeline,    role,    collaborators[]{ name, title },    hero{  alt,  caption,  fit,  image,  "width": image.asset->metadata.dimensions.width,  "height": image.asset->metadata.dimensions.height,  video{ asset->{ url } }},    accentColor,    year,    category,    shortDescription,    previewImage,    featured,    orderRank,    body[]{      ...,      _type == "section" => {        ...,        body[]      },      _type == "mediaBlock" => {        ...,          alt,  caption,  fit,  image,  "width": image.asset->metadata.dimensions.width,  "height": image.asset->metadata.dimensions.height,  video{ asset->{ url } }      },      _type == "mediaGrid" => {        ...,        items[]{          ...,            alt,  caption,  fit,  image,  "width": image.asset->metadata.dimensions.width,  "height": image.asset->metadata.dimensions.height,  video{ asset->{ url } }        }      }    }  }
+// Query: *[_type == "caseStudy" && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    description,    timeline,    role,    collaborators[]{ name, title },    hero{  alt,  caption,  fit,  stroke,  padding{ top, right, bottom, left },  image,  "width": image.asset->metadata.dimensions.width,  "height": image.asset->metadata.dimensions.height,  video{ asset->{ url } }},    accentColor,    year,    category,    shortDescription,    previewImage,    featured,    orderRank,    body[]{      ...,      _type == "section" => {        ...,        body[]      },      _type == "mediaBlock" => {        ...,          alt,  caption,  fit,  stroke,  padding{ top, right, bottom, left },  image,  "width": image.asset->metadata.dimensions.width,  "height": image.asset->metadata.dimensions.height,  video{ asset->{ url } }      },      _type == "mediaGrid" => {        ...,        items[]{          ...,            alt,  caption,  fit,  stroke,  padding{ top, right, bottom, left },  image,  "width": image.asset->metadata.dimensions.width,  "height": image.asset->metadata.dimensions.height,  video{ asset->{ url } }        }      }    }  }
 export type CASE_STUDY_BY_SLUG_QUERY_RESULT = {
   _id: string;
   title: string;
@@ -466,6 +478,13 @@ export type CASE_STUDY_BY_SLUG_QUERY_RESULT = {
     alt: string;
     caption: string | null;
     fit: "cover" | "inset" | null;
+    stroke: boolean | null;
+    padding: {
+      top: number | null;
+      right: number | null;
+      bottom: number | null;
+      left: number | null;
+    } | null;
     image: Image1;
     width: number | null;
     height: number | null;
@@ -543,6 +562,13 @@ export type CASE_STUDY_BY_SLUG_QUERY_RESULT = {
         } | null;
         caption: string | null;
         fit: "cover" | "inset" | null;
+        stroke: boolean | null;
+        padding: {
+          top: number | null;
+          right: number | null;
+          bottom: number | null;
+          left: number | null;
+        } | null;
         width: number | null;
         height: number | null;
       }
@@ -562,6 +588,13 @@ export type CASE_STUDY_BY_SLUG_QUERY_RESULT = {
           } | null;
           caption: string | null;
           fit: "cover" | "inset" | null;
+          stroke: boolean | null;
+          padding: {
+            top: number | null;
+            right: number | null;
+            bottom: number | null;
+            left: number | null;
+          } | null;
           width: number | null;
           height: number | null;
         }>;

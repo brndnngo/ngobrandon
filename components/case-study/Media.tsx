@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { InsetVideo } from "@/components/case-study/InsetVideo";
-import { insetItemStyle } from "@/lib/media-inset";
+import {
+  insetItemStyle,
+  insetPaddingStyle,
+  type MediaPadding,
+} from "@/lib/media-inset";
 
 export type MediaFit = "cover" | "inset";
 
@@ -10,6 +14,8 @@ export function Media({
   videoSrc,
   caption,
   fit = "cover",
+  padding,
+  stroke = false,
   width,
   height,
   priority = false,
@@ -19,6 +25,8 @@ export function Media({
   videoSrc?: string;
   caption?: string;
   fit?: MediaFit;
+  padding?: MediaPadding;
+  stroke?: boolean;
   width?: number;
   height?: number;
   priority?: boolean;
@@ -26,19 +34,26 @@ export function Media({
   if (!src && !videoSrc) return null;
 
   const ratio = width && height ? width / height : undefined;
+  const inset = fit === "inset";
 
   return (
     <figure data-reveal>
       <div
-        className={
-          fit === "inset"
-            ? "cs-media-inset relative aspect-video overflow-hidden bg-cs-media"
-            : "cs-media-frame relative aspect-video overflow-hidden bg-cs-media"
-        }
+        className={[
+          inset
+            ? "cs-media-inset relative overflow-hidden bg-cs-media"
+            : "cs-media-frame relative aspect-video overflow-hidden bg-cs-media",
+          stroke ? "cs-media-stroke" : "",
+        ].join(" ")}
+        style={inset ? insetPaddingStyle(padding) : undefined}
       >
-        {fit === "inset" ? (
+        {inset ? (
           videoSrc ? (
-            <InsetVideo src={videoSrc} poster={src || undefined} />
+            <InsetVideo
+              src={videoSrc}
+              poster={src || undefined}
+              padding={padding}
+            />
           ) : (
             <Image
               src={src}
@@ -48,12 +63,8 @@ export function Media({
               priority={priority}
               sizes="(min-width: 90rem) 768px, 90vw"
               unoptimized={src.includes(".svg")}
-              className={
-                ratio
-                  ? "cs-media-inset-item cs-media-inset-sized"
-                  : "cs-media-inset-item"
-              }
-              style={ratio ? insetItemStyle(ratio) : undefined}
+              className="cs-media-inset-item cs-media-inset-sized"
+              style={insetItemStyle(ratio, padding)}
             />
           )
         ) : videoSrc ? (

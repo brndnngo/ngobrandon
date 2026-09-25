@@ -36,6 +36,8 @@ function renderBlock(block: CaseStudyBlock) {
             videoSrc={block.media.videoSrc}
             caption={block.media.caption}
             fit={block.media.fit}
+            padding={block.media.padding}
+            stroke={block.media.stroke}
             width={block.media.width}
             height={block.media.height}
           />
@@ -108,6 +110,8 @@ export function CaseStudyArticle({ page }: { page: CaseStudyPage }) {
                 videoSrc={page.hero.videoSrc}
                 caption={page.hero.caption}
                 fit={page.hero.fit}
+                padding={page.hero.padding}
+                stroke={page.hero.stroke}
                 width={page.hero.width}
                 height={page.hero.height}
                 priority

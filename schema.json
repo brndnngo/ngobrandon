@@ -1,6 +1,43 @@
 [
   {
     "type": "type",
+    "name": "padding",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "top": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        },
+        "right": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        },
+        "bottom": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        },
+        "left": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
     "name": "sanity.imageAsset.reference",
     "value": {
       "type": "object",
@@ -679,6 +716,21 @@
             ]
           },
           "optional": true
+        },
+        "stroke": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
+        "padding": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "padding"
+          },
+          "optional": true
         }
       }
     }
@@ -740,6 +792,21 @@
                 "value": "inset"
               }
             ]
+          },
+          "optional": true
+        },
+        "stroke": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
+        "padding": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "padding"
           },
           "optional": true
         }

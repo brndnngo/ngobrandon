@@ -43,10 +43,19 @@ export function caseStudyToCard(doc: CaseStudyCard): ProjectCard | null {
   };
 }
 
+type MediaPaddingSource = {
+  top?: number | null;
+  right?: number | null;
+  bottom?: number | null;
+  left?: number | null;
+} | null;
+
 type MediaSource = {
   alt?: string | null;
   caption?: string | null;
   fit?: string | null;
+  stroke?: boolean | null;
+  padding?: MediaPaddingSource;
   width?: number | null;
   height?: number | null;
   image?: SanityImageSource | null;
@@ -55,6 +64,16 @@ type MediaSource = {
 
 function mediaFit(value: string | null | undefined): "cover" | "inset" {
   return value === "inset" || value === "contain" ? "inset" : "cover";
+}
+
+function mediaPadding(source: MediaPaddingSource | undefined) {
+  if (!source) return undefined;
+  const padding: NonNullable<CaseStudyMedia["padding"]> = {};
+  for (const edge of ["top", "right", "bottom", "left"] as const) {
+    const value = source[edge];
+    if (typeof value === "number") padding[edge] = value;
+  }
+  return Object.keys(padding).length ? padding : undefined;
 }
 
 function mediaFrom(source: MediaSource | null | undefined): CaseStudyMedia | null {
@@ -67,6 +86,8 @@ function mediaFrom(source: MediaSource | null | undefined): CaseStudyMedia | nul
     videoSrc: source.video?.asset?.url ?? undefined,
     caption: source.caption ?? undefined,
     fit: mediaFit(source.fit),
+    stroke: Boolean(source.stroke),
+    padding: mediaPadding(source.padding),
     width: source.width ?? undefined,
     height: source.height ?? undefined,
   };

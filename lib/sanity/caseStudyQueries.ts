@@ -4,6 +4,8 @@ const mediaFields = `
   alt,
   caption,
   fit,
+  stroke,
+  padding{ top, right, bottom, left },
   image,
   "width": image.asset->metadata.dimensions.width,
   "height": image.asset->metadata.dimensions.height,
