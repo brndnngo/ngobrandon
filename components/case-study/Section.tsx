@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
   PortableText,
   type PortableTextBlock,
@@ -26,6 +27,22 @@ const components: PortableTextComponents = {
   },
 };
 
+function HeadingText({ heading }: { heading: string }) {
+  const lines = heading.split("\n");
+  if (lines.length === 1) return heading;
+
+  return lines.map((line, index) => (
+    <Fragment key={index}>
+      {index > 0 ? <br /> : null}
+      {line.trimEnd().endsWith(":") ? (
+        <span className="text-cs-faint">{line}</span>
+      ) : (
+        line
+      )}
+    </Fragment>
+  ));
+}
+
 export function Section({
   id,
   eyebrow,
@@ -37,21 +54,28 @@ export function Section({
   heading: string;
   body: PortableTextBlock[];
 }) {
+  const hasHeading = heading.trim().length > 0;
+
   return (
     <section id={id} className="cs-span scroll-mt-(--nav-height)">
       {eyebrow ? (
         <p className="cs-measure text-body text-cs-faint">{eyebrow}</p>
       ) : null}
-      <h2
-        data-reveal
-        className={`cs-measure font-display text-cs-text ${
-          eyebrow ? "mt-2 text-cs-heading" : "text-cs-subhead"
-        }`}
-      >
-        {heading}
-      </h2>
+      {hasHeading ? (
+        <h2
+          data-reveal
+          className={`cs-measure font-display text-cs-text ${
+            eyebrow ? "mt-2 text-cs-heading" : "text-cs-subhead"
+          }`}
+        >
+          <HeadingText heading={heading} />
+        </h2>
+      ) : null}
       {body.length > 0 ? (
-        <div data-reveal className="cs-measure mt-cs-tight">
+        <div
+          data-reveal
+          className={`cs-measure${hasHeading ? " mt-cs-tight" : ""}`}
+        >
           <PortableText value={body} components={components} />
         </div>
       ) : null}

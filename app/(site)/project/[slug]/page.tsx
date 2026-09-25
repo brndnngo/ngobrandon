@@ -1,6 +1,10 @@
 import { CaseStudyArticle } from "@/components/case-study/CaseStudyArticle";
 import { isGatedSlug } from "@/lib/gated";
-import { getCaseStudyPage, getPublicProjectSlugs } from "@/lib/sanity/fetch";
+import {
+  getCaseStudyPage,
+  getPublicProjectSlugs,
+  isHiddenProject,
+} from "@/lib/sanity/fetch";
 import { siteConfig } from "@/lib/site";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -18,7 +22,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  if (isGatedSlug(slug)) notFound();
+  if (isGatedSlug(slug) || isHiddenProject(slug)) notFound();
   const project = await getCaseStudyPage(slug);
   if (!project) return {};
 
@@ -35,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
-  if (isGatedSlug(slug)) notFound();
+  if (isGatedSlug(slug) || isHiddenProject(slug)) notFound();
 
   const project = await getCaseStudyPage(slug);
   if (!project) notFound();

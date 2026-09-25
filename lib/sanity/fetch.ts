@@ -51,9 +51,13 @@ async function fetchCaseStudy(slug: string) {
   }
 }
 
+export function isHiddenProject(slug: string) {
+  return seedCards.some((card) => card.slug === slug && card.hidden);
+}
+
 export async function getProjectCards(): Promise<ProjectCard[]> {
   const remote = await fetchCaseStudies();
-  return mergeProjectCards(seedCards, remote);
+  return mergeProjectCards(seedCards, remote).filter((card) => !card.hidden);
 }
 
 export async function getProjectHero(
@@ -83,6 +87,7 @@ function legacyPage(slug: string): CaseStudyPage | null {
 export async function getCaseStudyPage(
   slug: string,
 ): Promise<CaseStudyPage | null> {
+  if (isHiddenProject(slug)) return null;
   const remote = await fetchCaseStudy(slug);
   const seeded = seedCaseStudy(slug) ?? legacyPage(slug);
   if (!remote) return seeded;

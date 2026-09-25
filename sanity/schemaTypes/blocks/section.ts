@@ -14,8 +14,15 @@ export const caseStudySection = defineType({
     }),
     defineField({
       name: "heading",
-      type: "string",
-      validation: (rule) => rule.required(),
+      type: "text",
+      rows: 3,
+      validation: (rule) =>
+        rule.custom((heading, context) => {
+          const body = (context.parent as { body?: unknown[] } | undefined)?.body;
+          if (typeof heading === "string" && heading.trim()) return true;
+          if (Array.isArray(body) && body.length > 0) return true;
+          return "Add a heading or body text";
+        }),
     }),
     defineField({
       name: "tocLabel",

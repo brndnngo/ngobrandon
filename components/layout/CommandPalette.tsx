@@ -18,7 +18,6 @@ import {
   projectHref,
   projectIndexTitle,
   projectIsExternal,
-  projectIsSelected,
 } from "@/lib/project-card";
 import { navLinks, siteConfig } from "@/lib/site";
 import { CommandGoIcon } from "@/components/layout/CommandIcons";
@@ -118,9 +117,7 @@ export function CommandPalette({
       kind: "page",
       verb: "Go",
     }));
-    const projectItems: PaletteItem[] = (projects ?? [])
-      .filter((card) => (needle ? true : projectIsSelected(card)))
-      .map((card) => ({
+    const projectItems: PaletteItem[] = (projects ?? []).map((card) => ({
         id: `project:${card.slug}`,
         label: projectIndexTitle(card),
         href: projectHref(card),

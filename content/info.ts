@@ -35,7 +35,6 @@ export const experienceGroups: ExperienceGroup[] = [
         description: "A new way of reading for the next generation",
         year: "2021",
         logo: "/logos/literal.svg",
-        href: "/project/literal",
       },
       {
         name: "Rollout",
@@ -43,7 +42,6 @@ export const experienceGroups: ExperienceGroup[] = [
           "Robotic processing automation (RPA) workflow management tool",
         year: "2020",
         logo: "/logos/rollout.svg",
-        href: "/project/playbook",
       },
       {
         name: "UCLA HCI",

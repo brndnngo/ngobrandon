@@ -17,7 +17,8 @@ function section(input: {
   includeInToc?: boolean;
   paragraphs: string[];
 }): CaseStudyBlock {
-  const label = input.tocLabel || input.eyebrow || input.heading;
+  const label =
+    input.tocLabel || input.eyebrow || input.heading || input.paragraphs[0];
   return {
     _type: "section",
     _key: key(),
@@ -159,10 +160,11 @@ const studies: Record<string, CaseStudyPage> = {
         "On Scene Pack, 21, Sofia, Bulgaria",
       ),
       section({
-        heading:
-          "Fans shared the moments they loved and pulled each other back into the show, building the kind of community streaming had stopped making room for.",
+        heading: "",
         includeInToc: false,
-        paragraphs: [],
+        paragraphs: [
+          "Fans shared the moments they loved and pulled each other back into the show, building the kind of community streaming had stopped making room for.",
+        ],
       }),
     ],
   }),
@@ -259,6 +261,18 @@ const studies: Record<string, CaseStudyPage> = {
           "After rollout, we checked in with product teams and associates. The people building tools talked about predictability and less back-and-forth, and those who used them talked about not having to stop and figure out what to do next.",
         ],
       }),
+      quote(
+        "“Even when switching tools, it feels a lot easier to use than before. I don’t have to stop & figure out what to do next.”",
+        "Liz, SAN3 Quality associate",
+      ),
+      quote(
+        "“Alchemy helped revive tools that have been sunsetted after being operated independently for years. Now, it feels like an actual system is coming together.”",
+        "Brad, Product manager, AFT Inbound",
+      ),
+      quote(
+        "“This was the first time we had a system in AFT that actually reflected how our teams build tools, rather than forcing them into scattered UI patterns across different component libraries.”",
+        "Ruslan, Software development manager, AFT Outbound",
+      ),
     ],
   }),
   receive: page({
@@ -280,7 +294,8 @@ const studies: Record<string, CaseStudyPage> = {
     blocks: [
       section({
         eyebrow: "Context",
-        heading: "Before a package reaches your door, someone has to receive it.",
+        heading:
+          "Before a package reaches your door,\nsomeone has to receive it.",
         paragraphs: [
           "Every item that enters an Amazon fulfillment center starts on a pallet at the dock. Before it can be stored, picked, or shipped, an associate has to scan it, identify it, and send it to the right place.",
         ],
@@ -295,7 +310,7 @@ const studies: Record<string, CaseStudyPage> = {
       section({
         eyebrow: "Key decisions",
         heading:
-          "Every tool was answering the same question: What is this pallet, and where should it go?",
+          "Every tool was answering the same question:\nWhat is this pallet, and where should it go?",
         paragraphs: [
           "Some pallets arrive with complete shipment data, and others arrive with partial or missing information. The legacy tools handled each scenario with a separate tool. Instead of improving them one by one, we consolidated all of them into one adaptive flow. It resolves automatically when the data is there and guides associates step by step when it isn't.",
         ],

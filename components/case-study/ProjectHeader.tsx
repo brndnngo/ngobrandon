@@ -23,11 +23,11 @@ export function ProjectHeader({
       </h1>
       <p
         data-reveal
-        className="cs-aside text-body text-cs-body max-lg:mt-cs-stack"
+        className="cs-aside text-body text-cs-body max-lg:mt-4"
       >
         {description}
       </p>
-      <dl className="cs-meta max-lg:mt-cs-stack max-lg:grid max-lg:gap-cs-stack">
+      <dl className="cs-meta max-lg:mt-8 max-lg:grid max-lg:gap-4">
         <div className="cs-meta-timeline">
           <dt className="text-body text-cs-text">Timeline</dt>
           <dd className="text-body text-cs-body">{timeline}</dd>
@@ -42,7 +42,7 @@ export function ProjectHeader({
             <dd>
               <ul>
                 {collaborators.map((person) => (
-                  <li key={person.name} className="flex flex-wrap gap-x-2">
+                  <li key={person.name} className="flex flex-wrap items-baseline gap-x-2">
                     <span className="text-body whitespace-nowrap text-cs-body">
                       {person.name}
                     </span>

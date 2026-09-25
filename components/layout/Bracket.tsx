@@ -1,18 +1,36 @@
+type BracketSize = "page" | "content";
+type BracketOrientation = "down" | "up";
+
 type BracketProps = {
-  direction: "down" | "up";
+  size?: BracketSize;
+  orientation: BracketOrientation;
 };
 
-export function Bracket({ direction }: BracketProps) {
-  const isDown = direction === "down";
+const tickClass: Record<BracketSize, string> = {
+  page: "h-(--bracket-tick-page)",
+  content: "h-(--bracket-tick-content)",
+};
+
+const radiusClass: Record<BracketSize, Record<BracketOrientation, string>> = {
+  page: {
+    down: "rounded-t-(--bracket-radius-page)",
+    up: "rounded-b-(--bracket-radius-page)",
+  },
+  content: {
+    down: "rounded-t-(--bracket-radius-content)",
+    up: "rounded-b-(--bracket-radius-content)",
+  },
+};
+
+export function Bracket({ size = "page", orientation }: BracketProps) {
+  const isDown = orientation === "down";
 
   return (
     <div
       aria-hidden
-      className={
-        isDown
-          ? "h-[13px] w-full overflow-hidden rounded-t-[3px] border-t border-x border-(--color-border) transition-[border-color] duration-[var(--theme-fade)]"
-          : "h-[13px] w-full overflow-hidden rounded-b-[3px] border-b border-x border-(--color-border) transition-[border-color] duration-[var(--theme-fade)]"
-      }
+      className={`w-full overflow-hidden border-x border-(--color-border) transition-[border-color] duration-[var(--theme-fade)] ${tickClass[size]} ${radiusClass[size][orientation]} ${
+        isDown ? "border-t" : "border-b"
+      }`}
     />
   );
 }

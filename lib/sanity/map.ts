@@ -38,7 +38,7 @@ export function caseStudyToCard(doc: CaseStudyCard): ProjectCard | null {
     selected: Boolean(doc.featured),
     discipline: doc.category,
     color: doc.accentColor,
-    thumbnail: doc.previewImage,
+    thumbnail: doc.previewImage ?? doc.heroStill,
     preview: doc.preview,
   };
 }
@@ -105,9 +105,9 @@ function blocksFrom(
       blocks.push({
         _type: "section",
         _key: block._key,
-        id: slugifyHeading(label),
+        id: slugifyHeading(label || block._key),
         eyebrow: block.eyebrow,
-        heading: block.heading,
+        heading: block.heading ?? "",
         tocLabel: block.tocLabel,
         includeInToc: block.includeInToc !== false,
         body: (block.body ?? []) as PortableTextBlock[],
@@ -147,6 +147,21 @@ function blocksFrom(
           value: item.value,
           label: item.label,
         })),
+      });
+      continue;
+    }
+
+    if (block._type === "contrast") {
+      const before = block.before;
+      const after = block.after;
+      if (!before?.heading || !before.label || !after?.heading || !after.label) {
+        continue;
+      }
+      blocks.push({
+        _type: "contrast",
+        _key: block._key,
+        before: { heading: before.heading, label: before.label },
+        after: { heading: after.heading, label: after.label },
       });
       continue;
     }

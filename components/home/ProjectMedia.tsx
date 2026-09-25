@@ -92,6 +92,7 @@ export function ProjectMedia({
           loop
           playsInline
           preload="auto"
+          onLoadedData={() => setVisible(true)}
           onPlaying={() => setVisible(true)}
           style={insetHero ? (frame ?? { visibility: "hidden" }) : undefined}
           className={`absolute object-cover transition-opacity duration-150 ${

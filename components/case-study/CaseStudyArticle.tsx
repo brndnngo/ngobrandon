@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { CaseStudyBody } from "@/components/portable-text/CaseStudyBody";
-import { CaseStudyFooter } from "@/components/case-study/CaseStudyFooter";
+import { Contrast } from "@/components/case-study/Contrast";
+import { Bracket } from "@/components/layout/Bracket";
+import { PageEnd } from "@/components/layout/PageEnd";
 import { Media } from "@/components/case-study/Media";
 import { MediaGrid } from "@/components/case-study/MediaGrid";
 import { ProjectHeader } from "@/components/case-study/ProjectHeader";
@@ -54,6 +56,10 @@ function renderBlock(block: CaseStudyBlock) {
       );
     case "statRow":
       return <StatRow key={block._key} items={block.items} note={block.note} />;
+    case "contrast":
+      return (
+        <Contrast key={block._key} before={block.before} after={block.after} />
+      );
     case "quote":
       return null;
     default:
@@ -98,8 +104,9 @@ export function CaseStudyArticle({ page }: { page: CaseStudyPage }) {
   const toc = tableOfContents(page.blocks);
 
   return (
-    <article data-nav="light">
-      <div className="cs-page">
+    <>
+      <article data-nav="light">
+        <div className="cs-page">
         <SideNav items={toc} />
         <div className="cs-main">
           {page.hero?.src ? (
@@ -125,7 +132,9 @@ export function CaseStudyArticle({ page }: { page: CaseStudyPage }) {
             role={page.role}
             collaborators={page.collaborators}
           />
-          <hr className="cs-full border-0 border-t border-(--color-border)" />
+          <div className="cs-full">
+            <Bracket size="content" orientation="down" />
+          </div>
           {renderBlocks(page.blocks)}
           {page.legacyBody?.length ? (
             <div className="cs-full">
@@ -134,7 +143,8 @@ export function CaseStudyArticle({ page }: { page: CaseStudyPage }) {
           ) : null}
         </div>
       </div>
-      <CaseStudyFooter />
-    </article>
+      </article>
+      <PageEnd />
+    </>
   );
 }
