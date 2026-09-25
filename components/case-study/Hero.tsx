@@ -1,60 +1,95 @@
-import { Container } from "@/components/layout/Container";
+import Image from "next/image";
+import { urlFor } from "@/lib/sanity/image";
 import type { ProjectHero } from "@/lib/sanity/types";
 
-export function Hero({ project }: { project: ProjectHero }) {
-  return (
-    <section data-nav="light" className="pb-20">
-      <Container className="grid gap-12 pt-16 md:grid-cols-[minmax(0,2fr)_minmax(16rem,1fr)]">
-        <div data-reveal>
-          <h1 className="font-display text-display">{project.title}</h1>
-          <p className="mt-8 max-w-prose text-body">{project.summary}</p>
-        </div>
+function heroSrc(project: ProjectHero) {
+  const source = project.heroImage ?? project.thumbnail;
+  if (!source) return null;
+  if (typeof source === "string") {
+    return { src: source, alt: project.heroAlt || project.title };
+  }
+  const src = urlFor(source)?.width(2400).url();
+  if (!src) return null;
+  return { src, alt: project.heroAlt || project.title };
+}
 
-        <dl data-reveal className="grid content-start gap-8 text-body">
-          {project.impact.length > 0 ? (
-            <div>
-              <dt className="text-eyebrow text-muted uppercase">Impact</dt>
-              <dd className="mt-2">
-                <ul className="grid gap-2">
+function MetaLabel({ children }: { children: string }) {
+  return (
+    <dt className="mb-1 text-[12px] leading-4 text-[#777]">{children}</dt>
+  );
+}
+
+export function Hero({ project }: { project: ProjectHero }) {
+  const hero = heroSrc(project);
+
+  return (
+    <section data-nav="light">
+      <header className="pt-8">
+        <h1 data-reveal className="mb-6 font-display text-display">
+          {project.title}
+        </h1>
+
+        <div className="mb-10 grid gap-10 md:grid-cols-[minmax(0,1.93fr)_minmax(12rem,1fr)] md:gap-20">
+          <div data-reveal>
+            <p className="max-w-[58.3rem] text-body">{project.summary}</p>
+
+            {project.impact.length > 0 ? (
+              <div className="mt-6">
+                <p className="mb-1 text-[12px] leading-4 text-[#777]">IMPACT</p>
+                <ul className="grid max-w-[35.125rem] text-body">
                   {project.impact.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-              </dd>
-            </div>
-          ) : null}
-
-          <div>
-            <dt className="text-eyebrow text-muted uppercase">Timeline</dt>
-            <dd className="mt-2">{project.timeline}</dd>
+              </div>
+            ) : null}
           </div>
 
-          <div>
-            <dt className="text-eyebrow text-muted uppercase">Role</dt>
-            <dd className="mt-2">{project.role}</dd>
-          </div>
-
-          {project.collaborators.length > 0 ? (
+          <dl data-reveal className="grid content-start gap-6 text-body">
             <div>
-              <dt className="text-eyebrow text-muted uppercase">
-                Collaborators
-              </dt>
-              <dd className="mt-2">
-                <ul className="grid gap-1">
-                  {project.collaborators.map((person) => (
-                    <li key={person.name}>
-                      {person.name}
-                      {person.role ? (
-                        <span className="text-muted"> — {person.role}</span>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              </dd>
+              <MetaLabel>TIMELINE</MetaLabel>
+              <dd>{project.timeline}</dd>
             </div>
-          ) : null}
-        </dl>
-      </Container>
+
+            <div>
+              <MetaLabel>ROLE</MetaLabel>
+              <dd>{project.role}</dd>
+            </div>
+
+            {project.collaborators.length > 0 ? (
+              <div>
+                <MetaLabel>COLLABORATORS</MetaLabel>
+                <dd>
+                  <ul>
+                    {project.collaborators.map((person) => (
+                      <li key={person.name}>
+                        <span className="block">{person.name}</span>
+                        {person.role ? (
+                          <span className="block">{person.role}</span>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </div>
+            ) : null}
+          </dl>
+        </div>
+      </header>
+
+      {hero ? (
+        <div data-reveal className="case-study-bleed">
+          <Image
+            src={hero.src}
+            alt={hero.alt}
+            width={2400}
+            height={1000}
+            priority
+            unoptimized={hero.src.includes(".svg")}
+            className="h-auto w-full"
+          />
+        </div>
+      ) : null}
     </section>
   );
 }

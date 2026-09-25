@@ -1,19 +1,25 @@
 import {
-  figure,
-  figureGrid,
-  panel,
-  stats,
-  steps,
-  videoBlock,
+  captionedImage,
+  caseStudySection,
+  imageRow,
+  media,
+  mediaBlock,
+  mediaGrid,
+  quote,
+  sectionEyebrow,
+  statRow,
 } from "./blocks";
-import { project } from "./project";
+import { caseStudy } from "./caseStudy";
 
 export const schemaTypes = [
-  project,
-  figure,
-  figureGrid,
-  stats,
-  videoBlock,
-  steps,
-  panel,
+  caseStudy,
+  media,
+  mediaBlock,
+  mediaGrid,
+  caseStudySection,
+  statRow,
+  quote,
+  captionedImage,
+  imageRow,
+  sectionEyebrow,
 ];

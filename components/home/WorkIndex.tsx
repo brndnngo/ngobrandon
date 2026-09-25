@@ -81,7 +81,7 @@ export function WorkIndex({ projects }: { projects: ProjectCard[] }) {
             }
           >
             <div className="work-index-preview">
-              <ProjectMedia card={active} />
+              <ProjectMedia card={active} hoverVideo playing />
             </div>
             <ProjectCaption card={active} />
           </Link>

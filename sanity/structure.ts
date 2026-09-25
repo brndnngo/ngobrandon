@@ -5,7 +5,11 @@ export const structure: StructureResolver = (S) =>
     .title("Content")
     .items([
       S.listItem()
-        .title("Projects")
-        .schemaType("project")
-        .child(S.documentTypeList("project").title("Projects")),
+        .title("Case studies")
+        .schemaType("caseStudy")
+        .child(
+          S.documentTypeList("caseStudy")
+            .title("Case studies")
+            .defaultOrdering([{ field: "orderRank", direction: "asc" }]),
+        ),
     ]);

@@ -17,6 +17,9 @@ importers:
       '@portabletext/react':
         specifier: ^8.0.1
         version: 8.0.1(react@19.2.8)
+      '@sanity/icons':
+        specifier: ^5.2.2
+        version: 5.2.2(react@19.2.8)
       '@sanity/image-url':
         specifier: ^2.1.1
         version: 2.1.1
@@ -5165,6 +5168,7 @@ packages:
   sanity@6.14.0:
     resolution: {integrity: sha512-okzit8ttjo8oVuo0dhxL9XfzUMwnwEMPcFr+dWmfVIkWgTDZAoMobCRFy1DUjfF5L2Y2rwgxjzQP37bNzmxkKg==}
     engines: {node: '>=22.12'}
+    deprecated: 'This version of Sanity Studio has a potential data-loss bug when working with Portable Text fields. This issue is resolved in 6.14.1. Upgrade with: npm install sanity@latest. See https://www.sanity.io/docs/studio/upgrade'
     hasBin: true
     peerDependencies:
       react: ^19.2.2
