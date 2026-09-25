@@ -44,6 +44,8 @@
   --color-surface: #ffffff;
   --color-foreground: #111111;
   --color-muted: #6f6f6f;
+  /* Large display lines only. 14px muted text stays --color-muted. */
+  --color-muted-display: #888888;
   --color-subtle: #f2f2f2;
   --color-border: #e2e2e2;
   --color-accent: #F05A24;
@@ -150,6 +152,7 @@
   --color-surface: #191919;
   --color-foreground: #f2f2f2;
   --color-muted: #a3a3a3;
+  --color-muted-display: #a3a3a3;
   --color-subtle: #242424;
   --color-border: #2e2e2e;
   --color-kbd-fill: #2a2a2a;

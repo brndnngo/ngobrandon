@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 function HomeBio() {
   return (
     <div className="home-bio page-grid gap-y-6 pt-6">
-      <p className="page-grid-intro font-display text-heading text-muted">
+      <p className="page-grid-intro font-display text-heading text-muted-display">
         <span className="text-foreground">{siteConfig.name}</span> is a product
         designer based in LA — working across product and design systems.
       </p>

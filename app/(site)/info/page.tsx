@@ -22,7 +22,7 @@ export default function InfoPage() {
               Nice to meet you, I&rsquo;m Brandon.
             </h1>
             <div className="mt-2 flex flex-col gap-8">
-              <p className="font-display text-heading text-muted">
+              <p className="font-display text-heading text-muted-display">
                 I am a Vietnamese-American product designer based in Los
                 Angeles. I have over 7 years of experience designing for
                 enterprises and startups, focused on{" "}
@@ -30,7 +30,7 @@ export default function InfoPage() {
                 launching{" "}
                 <Em href="/project/wc">consumer social features</Em>.
               </p>
-              <p className="font-display text-heading text-muted">
+              <p className="font-display text-heading text-muted-display">
                 I&rsquo;ve led the creation of design systems and tooling at{" "}
                 <Em href="/project/alchemy">Amazon</Em> to drive efficiency
                 across the global fulfillment warehouse ecosystem. In the past,

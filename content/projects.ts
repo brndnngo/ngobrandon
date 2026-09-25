@@ -40,7 +40,7 @@ export const seedCards: ProjectCard[] = [
     gated: true,
     order: 3,
     discipline: "Product design",
-    color: "#232F3E",
+    color: "#0066CC",
   },
   {
     slug: "literal",
