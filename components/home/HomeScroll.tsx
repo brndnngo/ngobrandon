@@ -5,8 +5,13 @@ import { useEffect, useRef, type ReactNode } from "react";
 /* Two-pane snap from tablet. Stacked work inner-scrolls under the bio. */
 const ENABLE_QUERY = "(min-width: 48rem)";
 const REDUCE_QUERY = "(prefers-reduced-motion: reduce)";
-const RESIST_PX = 160;
+/* Match vvichael: accumulate wheel delta with no resistance cushion. */
 const INTENT_DECAY_MS = 100;
+/* vvichael's first snap is ~340px / 760ms; scale so full-viewport travel isn't rushed. */
+const REF_SNAP_PX = 340;
+const REF_SNAP_MS = 760;
+const MIN_SNAP_MS = 900;
+const MAX_SNAP_MS = 1400;
 
 function isTypingTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false;
@@ -38,7 +43,6 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       index: 0,
       locked: false,
       intent: 0,
-      resist: 0,
       touchY: null as number | null,
       unlock: 0,
       decay: 0,
@@ -73,8 +77,6 @@ export function HomeScroll({ children }: { children: ReactNode }) {
     };
 
     const threshold = () => readToken("--home-section-threshold", 34);
-    const lockMs = () =>
-      reduceMq.matches ? 0 : readToken("--home-section-duration", 760);
 
     const sectionY = (index: number) => {
       const items = sections();
@@ -82,6 +84,12 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       const target = items[index];
       if (!first || !target) return 0;
       return target.offsetTop - first.offsetTop;
+    };
+
+    const snapDurationMs = (distance: number) => {
+      if (reduceMq.matches) return 0;
+      const scaled = REF_SNAP_MS * (Math.max(distance, 1) / REF_SNAP_PX);
+      return Math.round(Math.min(MAX_SNAP_MS, Math.max(MIN_SNAP_MS, scaled * 0.55)));
     };
 
     const applyOffset = () => {
@@ -94,7 +102,6 @@ export function HomeScroll({ children }: { children: ReactNode }) {
 
     const resetIntent = () => {
       state.intent = 0;
-      state.resist = 0;
       window.clearTimeout(state.decay);
     };
 
@@ -109,22 +116,10 @@ export function HomeScroll({ children }: { children: ReactNode }) {
         (delta < 0 && state.intent > 0)
       ) {
         state.intent = 0;
-        state.resist = 0;
       }
 
       queueIntentDecay();
-
-      const room = RESIST_PX - state.resist;
-      if (room > 0) {
-        const eat = Math.min(Math.abs(delta), room);
-        state.resist += eat;
-        const leftover = Math.abs(delta) - eat;
-        if (leftover <= 0) return false;
-        state.intent += Math.sign(delta) * leftover;
-      } else {
-        state.intent += delta;
-      }
-
+      state.intent += delta;
       return Math.abs(state.intent) >= threshold();
     };
 
@@ -137,6 +132,10 @@ export function HomeScroll({ children }: { children: ReactNode }) {
         return;
       }
 
+      const distance = Math.abs(sectionY(clamped) - sectionY(state.index));
+      const duration = snapDurationMs(distance);
+      root.style.setProperty("--home-section-duration", `${duration}ms`);
+
       state.index = clamped;
       resetIntent();
       state.locked = true;
@@ -144,7 +143,7 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       window.clearTimeout(state.unlock);
       state.unlock = window.setTimeout(() => {
         state.locked = false;
-      }, lockMs());
+      }, duration);
     };
 
     const goBy = (direction: 1 | -1) => {
@@ -307,6 +306,7 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       }
       delete root.dataset.homeScroll;
       delete root.dataset.homeSection;
+      root.style.removeProperty("--home-section-duration");
       track.style.removeProperty("--home-track-offset");
       pinFooter(false);
     };
@@ -342,6 +342,7 @@ export function HomeScroll({ children }: { children: ReactNode }) {
       pinFooter(false);
       delete root.dataset.homeScroll;
       delete root.dataset.homeSection;
+      root.style.removeProperty("--home-section-duration");
       track.style.removeProperty("--home-track-offset");
     };
   }, []);
