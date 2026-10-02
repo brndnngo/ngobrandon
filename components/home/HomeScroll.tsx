@@ -5,9 +5,8 @@ import { useEffect, useRef, type ReactNode } from "react";
 /* Two-pane snap from tablet. Stacked work inner-scrolls under the bio. */
 const ENABLE_QUERY = "(min-width: 48rem)";
 const REDUCE_QUERY = "(prefers-reduced-motion: reduce)";
-/* Match vvichael: accumulate wheel delta with no resistance cushion. */
 const INTENT_DECAY_MS = 100;
-/* vvichael's first snap is ~340px / 760ms; scale so full-viewport travel isn't rushed. */
+/* Scale snap duration from a short-hop baseline so full-viewport travel isn't rushed. */
 const REF_SNAP_PX = 340;
 const REF_SNAP_MS = 760;
 const MIN_SNAP_MS = 900;

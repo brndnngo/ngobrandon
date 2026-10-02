@@ -580,7 +580,7 @@ html[data-theme-ready] {
   }
 
   .home-snap {
-    /* Longer than vvichael's 760ms — they only snap ~340px; we travel a full viewport. */
+    /* Baseline for a full-viewport snap; JS may lengthen per travel distance. */
     --home-section-duration: 1200ms;
     --home-section-ease: cubic-bezier(0.22, 1, 0.36, 1);
     --home-section-threshold: 34;
