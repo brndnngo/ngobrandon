@@ -1368,6 +1368,7 @@ html[data-theme-ready] {
     line-height: 18px;
     letter-spacing: -0.05em;
     color: var(--cmd-meta);
+    transform: translateY(-2px);
   }
 
   .site-nav-kbd img {
