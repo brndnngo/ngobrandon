@@ -221,7 +221,18 @@ export function mergeProjectCards(
 ): ProjectCard[] {
   const bySlug = new Map(seed.map((card) => [card.slug, card]));
   for (const card of remote) {
-    bySlug.set(card.slug, { ...bySlug.get(card.slug), ...card });
+    const existing = bySlug.get(card.slug);
+    const merged = { ...existing, ...card };
+    // Keep seed order when Sanity has no orderRank yet.
+    if (card.order == null && existing?.order != null) {
+      merged.order = existing.order;
+    }
+    bySlug.set(card.slug, merged);
   }
-  return [...bySlug.values()].sort((a, b) => a.order - b.order);
+  return [...bySlug.values()].sort((a, b) => {
+    const ao = a.order ?? Number.POSITIVE_INFINITY;
+    const bo = b.order ?? Number.POSITIVE_INFINITY;
+    if (ao !== bo) return ao - bo;
+    return Number(b.year) - Number(a.year);
+  });
 }

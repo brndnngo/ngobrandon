@@ -16,20 +16,6 @@ export const seedCards: ProjectCard[] = [
     color: "#171717",
   },
   {
-    slug: "alchemy",
-    title: "Amazon",
-    indexTitle: "Amazon Alchemy",
-    cardTitle: "Design systems for warehouses worldwide",
-    year: "2025",
-    summary:
-      "I led key efforts on the Alchemy Design System as part of an ongoing 3-year initiative to unify design standards across the fulfillment network.",
-    gated: true,
-    order: 2,
-    selected: true,
-    discipline: "Design systems",
-    color: "#FF9900",
-  },
-  {
     slug: "receive",
     title: "Amazon",
     indexTitle: "Amazon Receive",
@@ -38,10 +24,24 @@ export const seedCards: ProjectCard[] = [
     summary:
       "I led the design of two programs that replaced 20+ legacy tools and standardized how Amazon's fulfillment centers receive inventory.",
     gated: true,
-    order: 3,
+    order: 2,
     selected: true,
     discipline: "Product design",
     color: "#0066CC",
+  },
+  {
+    slug: "alchemy",
+    title: "Amazon",
+    indexTitle: "Amazon Alchemy",
+    cardTitle: "Design systems for warehouses worldwide",
+    year: "2025",
+    summary:
+      "I led key efforts on the Alchemy Design System as part of an ongoing 3-year initiative to unify design standards across the fulfillment network.",
+    gated: true,
+    order: 3,
+    selected: true,
+    discipline: "Design systems",
+    color: "#FF9900",
   },
   {
     slug: "literal",

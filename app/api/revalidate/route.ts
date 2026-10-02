@@ -18,12 +18,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Invalid signature" }, { status: 401 });
   }
 
-  revalidateTag("projects", "max");
+  // Match tags used by lib/sanity/fetch.ts for case-study index + detail.
+  revalidateTag("case-studies", "max");
 
   const slug =
     typeof body?.slug === "string" ? body.slug : body?.slug?.current;
   if (slug) {
-    revalidateTag(`project:${slug}`, "max");
+    revalidateTag(`case-study:${slug}`, "max");
   }
 
   return NextResponse.json({ revalidated: true, slug: slug ?? null });

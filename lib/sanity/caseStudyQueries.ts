@@ -15,7 +15,7 @@ const mediaFields = `
 const mediaProjection = `{${mediaFields}}`;
 
 export const CASE_STUDIES_INDEX_QUERY = defineQuery(`
-  *[_type == "caseStudy"] | order(orderRank asc) {
+  *[_type == "caseStudy"] | order(orderRank asc, year desc) {
     _id,
     title,
     "slug": slug.current,

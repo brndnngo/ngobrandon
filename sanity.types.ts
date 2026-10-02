@@ -409,7 +409,7 @@ export type AllSanitySchemaTypes =
 
 // Source: lib/sanity/caseStudyQueries.ts
 // Variable: CASE_STUDIES_INDEX_QUERY
-// Query: *[_type == "caseStudy"] | order(orderRank asc) {    _id,    title,    "slug": slug.current,    accentColor,    year,    category,    shortDescription,    previewImage,    "heroStill": hero.image,    "preview": hero.video.asset->url,    featured,    orderRank  }
+// Query: *[_type == "caseStudy"] | order(orderRank asc, year desc) {    _id,    title,    "slug": slug.current,    accentColor,    year,    category,    shortDescription,    previewImage,    "heroStill": hero.image,    "preview": hero.video.asset->url,    featured,    orderRank  }
 export type CASE_STUDIES_INDEX_QUERY_RESULT = Array<{
   _id: string;
   title: string;
