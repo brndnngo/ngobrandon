@@ -71,7 +71,7 @@ export function PasswordGate({
             action={unlockCaseStudy}
             noValidate
             onSubmit={handleSubmit}
-            className="grid w-full max-w-[34rem] gap-4"
+            className="grid w-full gap-4 md:max-w-[34rem]"
           >
             <input type="hidden" name="next" value={next} />
             <div className="grid gap-2">
